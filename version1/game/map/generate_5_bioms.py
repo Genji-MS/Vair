@@ -46,5 +46,5 @@ if __name__ == '__main__':
     for i in range(100):
         time.sleep(.075)
         map = generate_from_probability(
-            i, (20, 40), probs, types, passed_map=map[1:, 1:])
+            i % 20, (20, 40), probs, types, passed_map=map[1:, 1:])
         print_map(map)
