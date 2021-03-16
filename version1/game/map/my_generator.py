@@ -177,7 +177,7 @@ class TileType(Enum):
     lush = 3
 
 
-def generate_from_probability(random_seed, shape, d_con=(1, 1), passed_map=None, tamper=False):
+def generate_from_probability(random_seed, shape, probs, possible_tiles, d_con=(1, 1), passed_map=None, tamper=False):
     np.random.seed(random_seed)
     map = np.zeros(shape)
     if passed_map is not None:
@@ -188,21 +188,22 @@ def generate_from_probability(random_seed, shape, d_con=(1, 1), passed_map=None,
                 if i == 0 and j == 0:
                     map[0, 0] = np.random.randint(3) + 1
                 else:
-                    sum_probs = np.array([0., 0., 0.])
+                    sum_probs = np.zeros(np.array(possible_tiles).shape)
                     count_added_probs = 0
                     for in_i in range(i - d_con[0], i + d_con[0] + 1):
                         for in_j in range(j - d_con[1], j + d_con[1] + 1):
                             if in_i >= 0 and in_i < shape[0] and in_j >= 0 and in_j < shape[1]:
                                 # print(f'i: {i} in_i: {in_i} j: {j} in_j: {in_j}')
                                 if map[in_i, in_j] != 0:
-                                    sum_probs += TileType.prob_given_neighbor.value[map[in_i, in_j]]
+                                    sum_probs += probs[map[in_i, in_j]]
                                     count_added_probs += 1
                     count_added_probs = 1 if count_added_probs == 0 else count_added_probs
                     # print(sum_probs)
                     actual_probs = sum_probs/count_added_probs
                     # print(actual_probs)
                     # print(sum(actual_probs))
-                    map[i, j] = np.random.choice([1, 2, 3], p=actual_probs)
+                    map[i, j] = np.random.choice(
+                        possible_tiles, p=actual_probs)
             # print('-----------')
         # print('-----------*******-----------')
     return map
@@ -222,19 +223,27 @@ def print_map(map):
 
 
 if __name__ == '__main__':
+    possible_tiles = [1, 2, 3]
+    probs = {
+        0: np.array([0.0, 0.0, 0.0]),
+        1: np.array([0.94, 0.05, 0.01]),
+        2: np.array([0.05, 0.9, 0.05]),
+        3: np.array([0.01, 0.05, 0.94])
+    }
     seed = 0
     print('Small map')
-    map = generate_from_probability(seed, (20, 20))
+    map = generate_from_probability(seed, (20, 20), probs, possible_tiles)
     print_map(map)
     print('')
     print('***************************************************************')
     print('Print small map extended')
-    map = generate_from_probability(seed, (20, 40), passed_map=map)
+    map = generate_from_probability(
+        seed, (20, 40), probs, possible_tiles, passed_map=map)
     print_map(map)
     print('')
     print('***************************************************************')
     print('Large Map')
-    map = generate_from_probability(seed, (20, 40))
+    map = generate_from_probability(seed, (20, 40), probs, possible_tiles)
     print_map(map)
     print('')
     print('***************************************************************')
@@ -247,11 +256,11 @@ if __name__ == '__main__':
     print('***************************************************************')
     print('Perlin noise map thats been passed over with stocastic sample')
     map = generate_from_probability(
-        seed, (20, 40), passed_map=p_map, tamper=True)
+        seed, (20, 40), probs, possible_tiles,  passed_map=p_map, tamper=True)
     print_map(map)
     print('')
     print('***************************************************************')
     print('Perlin noise map thats been passed over with stocastic sample with larger view')
     map = generate_from_probability(
-        seed, (20, 40), passed_map=p_map, d_con=(2, 2), tamper=True)
+        seed, (20, 40), probs, possible_tiles, passed_map=p_map, d_con=(2, 2), tamper=True)
     print_map(map)
