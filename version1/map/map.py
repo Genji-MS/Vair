@@ -86,9 +86,15 @@ class Location:
         # Tile type, enum perhaps?
         self.tile = tile_type
         # A list of objects allows for stacking of food / poop potentially
-        self.non_colliding_objects = non_colliding_objects
+        if non_colliding_objects is None:
+            self.non_colliding_objects = []
+        else:
+            self.non_colliding_objects = non_colliding_objects
         # An oject too big to move through, Rocks, Players, Enemies
-        self.colliding_objects = colliding_objects
+        if colliding_objects is None:
+            self.colliding_objects = []
+        else:
+            self.colliding_objects = colliding_objects
         self.food_probabilities = food_probabilities
         self.food_types = food_types
 
@@ -104,19 +110,23 @@ class Location:
     def to_json(self) -> str:
         return json.dumps({
             'tile': str(self.tile),
-            'non_c_o': self.non_colliding_objects,
+            'non_c_o': [item.__dict__ for item in self.non_colliding_objects],
             'c_o': self.colliding_objects,
         })
 
     @classmethod
     def from_json(cls, l_json):
         # print(type(l_json))
-        return cls(tile_type=TileType[l_json['tile'].split('.')[1]], non_colliding_objects=l_json['non_c_o'], colliding_objects=l_json['c_o'])
+        cls_object = cls(tile_type=TileType[l_json['tile'].split('.')[
+                         1]], non_colliding_objects=l_json['non_c_o'], colliding_objects=l_json['c_o'])
+        cls_object.non_colliding_objects = [Food.from_json(
+            item) for item in cls_object.non_colliding_objects]
+        return cls_object
 
     def __str__(self) -> str:
-        if self.colliding_objects is not None:
+        if len(self.colliding_objects) != 0:
             return self.colliding_objects[0].value
-        if self.non_colliding_objects is not None:
+        if len(self.non_colliding_objects) != 0:
             return self.non_colliding_objects[0].value
         return self.tile.value
 
