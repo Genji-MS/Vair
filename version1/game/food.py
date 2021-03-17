@@ -14,7 +14,7 @@ class Food:
             self.TimeToProcess = 2
             self.PoopValue = 0
             self.HealthValue = 0
-            self.HarmValue = -1
+            self.HarmValue = 1
         elif self.type == 'helpful':
             self.value = '\u001b[33m('
             self.TimeToProcess = 1
@@ -25,4 +25,7 @@ class Food:
             self.TimeToProcess = 2
             self.PoopValue = 0
             self.HealthValue = 0
-            self.HealthValue = 0
+            self.HarmValue = 0
+        
+    def __repr__(self):
+        return f'{self.name}:{self.type}'

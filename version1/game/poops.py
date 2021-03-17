@@ -16,3 +16,6 @@ class Poops:
     def make_poop(self, x, y):
         #make a poop at x, y
         self.amount -= 1
+    
+    def __repr__(self):
+        return f'Poops:{self.amount}'
