@@ -1,9 +1,10 @@
+from food import Food
+from poops import Poops
 class Stomach:
     def __init__(self):
         #having trouble starting out the game.
         self.current_food_counter = 0
         self.contents = []
-        self.poops = 0
     
     def eat(self, food):
         #check if we have 5 items in contents already
@@ -14,6 +15,8 @@ class Stomach:
             #return false if we already have 5 food items in contents
             return -1
 
+    def isFull(self):
+        return len(self.contents) == 5
 
     def update(self):
         if self.current_food_counter <= 0:
@@ -33,6 +36,31 @@ class Stomach:
         pass
 
 
+
+
+stomach = Stomach()
+carrot = Food('carrot','normal')
+apple = Food('apple','normal')
+
+stomach.eat(carrot)
+stomach.eat(apple)
+print(stomach.contents)
+stomach.update()
+print(stomach.current_food_counter)
+stomach.update()
+print(stomach.current_food_counter)
+stomach.update()
+print(stomach.current_food_counter)
+stomach.update()
+print(stomach.current_food_counter)
+stomach.update()
+print(stomach.current_food_counter)
+stomach.update()
+print(stomach.current_food_counter)
+for item in stomach.contents:
+    print(item.name)
+
+print(stomach.poops)
 
 
 
