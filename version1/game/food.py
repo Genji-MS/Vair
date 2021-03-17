@@ -18,5 +18,10 @@ class Food:
             self.PoopValue = 3
             self.HealthValue = 1
             self.HarmValue = 0
+        elif self.type == 'poop':
+            self.TimeToProcess = 2
+            self.PoopValue = 0
+            self.HealthValue = 0
+            self.HealthValue = 0
         
         
