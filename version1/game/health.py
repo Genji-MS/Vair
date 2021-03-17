@@ -11,11 +11,11 @@ class Health:
     def add_hp(self, amount_to_add):
         self.current_hp += amount_to_add
         self.max_hp_check()
-    
+
     def lose_hp(self, amount_to_lose):
         self.current_hp -= amount_to_lose
         self.max_hp_check()
-    
+
     def is_not_dead(self):
         return self.current_hp > 0
 
