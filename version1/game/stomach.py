@@ -74,6 +74,8 @@ poop = Food('poop', 'poop')
 
 #The following tests run through eating food, and digesting it through updates where 1 action happens each update. Food gets digested, and 
 #poops, hp, and counters are all updated as expected. 
+
+#** tests are run with python3 version1/game/stomach.py**
 stomach.eat(normal)
 print(stomach.contents)
 stomach.eat(helpful)

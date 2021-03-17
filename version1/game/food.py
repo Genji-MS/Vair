@@ -30,7 +30,6 @@ class Food:
         
     def __repr__(self):
         return f'{self.name}:{self.type}'
-            self.HealthValue = 0
 
     @classmethod
     def from_json(cls, f_ob):
