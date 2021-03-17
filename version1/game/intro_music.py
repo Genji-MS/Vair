@@ -6,7 +6,7 @@ import pyglet as py
 #set audio driver options
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 
-#reference intro song file
+#reference song files and load them
 intro = py.media.load("./resources/intro.wav")
 
 #play intro

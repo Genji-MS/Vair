@@ -18,7 +18,7 @@ class Stomach:
     def isFull(self):
         return len(self.contents) == 5
 
-    def update(self):
+    def update(self, poops_instance, actions=1):
         if self.current_food_counter <= 0:
             #if no food counter, checks for contents in the stomach
             if self.contents:
@@ -29,10 +29,10 @@ class Stomach:
                 return -1
         elif self.current_food_counter > 0:
             #check if we are already processing food
-            self.current_food_counter -= 1
+            self.current_food_counter -= actions
             if self.current_food_counter <= 0:
                 #if the current food finishes processing, we will remove it from contents and add the poop value to our poops
-                self.poops += (self.contents.pop().PoopValue)
+                poop_instance.amount += (self.contents.pop().PoopValue)
         pass
 
 
