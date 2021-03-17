@@ -51,7 +51,7 @@ class Stomach:
             if self.current_food_counter <= 0:
                 #if the current food finishes processing, we will remove it from contents and add the poop value to our poops
                 poop_instance.addPoops(self.contents.pop().PoopValue)
-        pass
+        
 
 
 

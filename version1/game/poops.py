@@ -1,3 +1,4 @@
+
 class Poops:
     def __init__(self, amount=5):
         #start the game with 5 poops, unless otherwise specified
@@ -12,5 +13,6 @@ class Poops:
     def addPoops(self, amount):
         self.amount += amount
     
-    def decrement_poop(self, x, y):
+    def make_poop(self, x, y):
+        #make a poop at x, y
         self.amount -= 1
