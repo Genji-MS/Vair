@@ -1,7 +1,7 @@
 import random
 import json
-from ..game.food import Food
-from .tile_type import TileType
+from game.food import Food
+from game_map.tile_type import TileType
 
 BASIC_FOODPROBS = {
     TileType.rock: [0.75, 0.25, 0., 0.],

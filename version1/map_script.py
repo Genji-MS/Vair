@@ -1,5 +1,5 @@
-from .game.food import Food
-from .game_map.game_map import test
+from game.food import Food
+from game_map.game_map import test
 # from .game_script import game_loop
 import os
 print(os.getcwd())

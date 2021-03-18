@@ -2,8 +2,8 @@ import random
 import json
 import os
 import time
-from .location import Location
-from .tile_type import TileType
+from game_map.location import Location
+from game_map.tile_type import TileType
 
 
 POSIBLE_TILES = [TileType.rock, TileType.barren,
@@ -56,7 +56,8 @@ class Chunk:
         d_con=(1, 1),
         passed_map=None,
         passed_map_corner=None,
-        tamper=False
+        tamper=False,
+        map=None
     ):
         self.random_seed = random_seed
         self.id = id
@@ -67,13 +68,16 @@ class Chunk:
         self.passed_map = passed_map
         self.passed_map_corner = passed_map_corner
         self.tamper = tamper
-        self.map = []
-        for _ in range(shape[0]):
-            row = []
-            for __ in range(shape[1]):
-                row.append(Location(tile_type=TileType.no_tile))
-            self.map.append(row)
-        self.stochastic_gen()
+        if map is None:
+            self.map = []
+            for _ in range(shape[0]):
+                row = []
+                for __ in range(shape[1]):
+                    row.append(Location(tile_type=TileType.no_tile))
+                self.map.append(row)
+            self.stochastic_gen()
+        else:
+            self.map = map
         ...
 
     def stochastic_gen(self) -> None:
@@ -109,7 +113,7 @@ class Chunk:
                 TypeError(
                     'You forgot to tell me what corner the passed map goes into.')
             if self.passed_map_corner == 1:
-                print('hello')
+                # print('hello')
                 for i in range(len(self.passed_map)):
                     for j in range(len(self.passed_map[0])):
                         self.map[i][j] = self.passed_map[i][j]
