@@ -10,11 +10,8 @@ thlay = Thlay.Health()
 hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
-animating = False
-eating = False
 
-def get_anim():
-    return animating
+dispatcher.push_handelers(end_animation = sprites.end_animation)
 
 def anchor_center(image):
     """set the anchor point of an image to its center"""
@@ -43,61 +40,60 @@ def on_draw():
     vair.sprite.draw()
     batch.draw()
 
-# @window.event
-# def on_key_press(symbol, modifiers):
-#     if not get_anim():  #ensure no animations are active before receiving input
-#         if symbol == py.window.key.SPACE:   #eat food
-#             food_menu = world.what_food_is_here()
-#             if food_menu.len:
-#                 eating = True
-#             #create list of foods and send input with #keys, checking that eating is True while the food menu is displayed
-#             #vair.nom() #start the eating animation while player selects from the menu
-#         # input to rest/skip a turn
-#         if hraka.poopsAvailable():  #check if we are able to move
-#             #set defaults
-#             hop_dir = 'X'
-#             hop_side = 'X'
-#             hop_target = [pos_x,pos_y]
-#             #project movement
-#             if symbol == py.window.key.Q:
-#                 hop_dir = 'out'
-#                 hop_side = 'L'
-#                 hop_target[0] -=1
-#             elif symbol == py.window.key.A:
-#                 hop_dir = 'in'
-#                 hop_side = 'L'
-#                 hop_target[0] -=1
-#                 hop_target[1] -=1
-#             elif symbol == py.window.key.E:
-#                 hop_dir = 'out'
-#                 hop_side = 'R'
-#                 hop_target[0] +=1
-#                 hop_target[1] +=1
-#             elif symbol == py.window.key.D:
-#                 hop_dir = 'in'
-#                 hop_side = 'R'
-#                 hop_target[0] +=1
-#             elif symbol == py.window.key.W:
-#                 hop_dir = 'out'
-#                 hop_target[1] +=1
-#             elif symbol == py.window.key.S:
-#                 hop_dir = 'in'
-#                 hop_target[1] -=1
-#             #check if projected position is valid
-#             if world.is_move_valid(hop_target):
-#                 animating = True    #prevents input while we animate
-#                 if hop_dir == 'in':
-#                     vair.hop_in(hop_side)
-#                 else:
-#                     vair.hop_out(hop_side)
-#                 world.move_player(hop_target)
+@window.event
+def on_key_press(symbol, modifiers):
+    if not sprites.animation:  #ensure no animations are active before receiving input
+        if symbol == py.window.key.SPACE:   #eat food
+            food_menu = world.what_food_is_here()
+            if food_menu.len:
+            #create list of foods and send input with #keys, checking that eating is True while the food menu is displayed
+                vair.nom() #start the eating animation while player selects from the menu
+        # input to rest/skip a turn & foods menu
+        if hraka.poopsAvailable():  #check if we are able to move
+            #set defaults
+            hop_dir = 'X'
+            hop_side = 'X'
+            hop_target = [pos_x,pos_y]
+            #project movement
+            if symbol == py.window.key.Q:
+                hop_dir = 'out'
+                hop_side = 'L'
+                hop_target[0] -=1
+            elif symbol == py.window.key.A:
+                hop_dir = 'in'
+                hop_side = 'L'
+                hop_target[0] -=1
+                hop_target[1] -=1
+            elif symbol == py.window.key.E:
+                hop_dir = 'out'
+                hop_side = 'R'
+                hop_target[0] +=1
+                hop_target[1] +=1
+            elif symbol == py.window.key.D:
+                hop_dir = 'in'
+                hop_side = 'R'
+                hop_target[0] +=1
+            elif symbol == py.window.key.W:
+                hop_dir = 'out'
+                hop_target[1] +=1
+            elif symbol == py.window.key.S:
+                hop_dir = 'in'
+                hop_target[1] -=1
+            #check if projected position is valid
+            if world.is_move_valid(hop_target):
+                #animating = True    #prevents input while we animate
+                if hop_dir == 'in':
+                    vair.hop_in(hop_side)
+                else:
+                    vair.hop_out(hop_side)
+                world.move_player(hop_target)
 
-# @window.event
-# #def on animation complete
-#     animating = False
-#     flay.update()
-#     if thlay.is_not_dead() == False:
-#         #call end game
+@dispatcher.event
+def end_animation():
+    flay.update()
+    if thlay.is_not_dead() == False:
+        pass
+        #call end game
 
 if __name__ == '__main__':
     py.app.run()
