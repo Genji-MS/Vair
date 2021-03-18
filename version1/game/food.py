@@ -22,7 +22,7 @@ class Food:
             self.HealthValue = 1
             self.HarmValue = 0
         elif self.type == 'poop':
-            self.value = '\u001b[33;1mP'
+            self.value = '\u001b[33mP'
             self.TimeToProcess = 2
             self.PoopValue = 0
             self.HealthValue = 0
