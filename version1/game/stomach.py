@@ -27,7 +27,9 @@ class Stomach:
             #if we eat more than our stomach size, puke all but one item and deduct one point of hp 
             self.contents = [self.contents.pop()]
             self.health_instance.lose_hp(1)
-            
+
+    def getSize(self):
+        return f'{len(self.contents)}/{self.max_food_contents}'        
 
     def isFull(self):
         return len(self.contents) >= 5
