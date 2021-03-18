@@ -275,7 +275,8 @@ def on_draw():
     text.sprite.draw()
     #title_txt.draw()
 
-window.flip()
+#forces a redraw, will create flicker if used excessivly
+#window.flip()
 
 @window.event
 def on_key_press(symbol, modifiers):
