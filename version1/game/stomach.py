@@ -1,6 +1,5 @@
-from food import Food
-from poops import Poops
-from health import Health
+import game.food
+
 class Stomach:
     max_food_contents = 8 #maximum food allowed in stomach
     starting_empty_counter = 3 #actions that can be taken on an empty stomach before damage is applied
