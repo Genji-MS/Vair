@@ -1,4 +1,3 @@
-from game.player import Player
 from game.food import Food
 from game_map.chunk import Chunk
 import os
@@ -204,13 +203,4 @@ def test():
 
 
 if __name__ == '__main__':
-    game_map = GameMap()
-    game_map.render_ascii_map()
-    print(game_map.what_food_is_here())
-    print(game_map.create_poop())
-    print(game_map.what_food_is_here())
-    print(game_map.eat_food(0))
-    print(game_map.what_food_is_here())
-    game_map.is_move_valid((-1, 0))
-    game_map.move_player((-1, 0))
-    game_map.render_ascii_map()
+    test()

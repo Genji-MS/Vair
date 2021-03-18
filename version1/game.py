@@ -5,7 +5,7 @@ import game.poops as Hraka
 import game.stomach as Flay
 import game_map.game_map as World
 
-world = World.GameMap()
+world = World.GameMap(0)
 thlay = Thlay.Health()
 hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
@@ -13,13 +13,16 @@ pos_x, pos_y = world.player_pos
 animating = False
 eating = False
 
+
 def get_anim():
     return animating
+
 
 def anchor_center(image):
     """set the anchor point of an image to its center"""
     image.anchor_x = image.width//2
     image.anchor_y = image.height//2
+
 
 vair = sprites.Sprite_Rabbit()
 for image in vair.img_seq:
@@ -29,12 +32,18 @@ py.clock.schedule_interval(vair.update, 0.07)
 window = py.window.Window()
 # bg_color = py.shapes.Rectangle(0,0,window.width, window.height, color=(22, 78, 22))
 batch = py.graphics.Batch()
-BUFFER = 8 #padding
-stats_border = py.shapes.Rectangle((BUFFER//2)-1, window.height - (75+1) - (BUFFER//2), 120+2, 74+2, color = (255,255,255), batch = batch)
-stats_fill = py.shapes.Rectangle(BUFFER//2, window.height - 75 - (BUFFER//2), 120, 74, color = (0,0,0), batch = batch)
-health_txt = py.text.Label('Thlay', x= BUFFER, y=window.height - 20 -BUFFER, batch = batch)
-stomach_txt = py.text.Label('Flay', x= BUFFER, y=window.height - 40 -BUFFER, batch = batch)
-poops_txt = py.text.Label('Hraka', x= BUFFER, y=window.height - 60 -BUFFER, batch = batch)
+BUFFER = 8  # padding
+stats_border = py.shapes.Rectangle((BUFFER//2)-1, window.height - (
+    75+1) - (BUFFER//2), 120+2, 74+2, color=(255, 255, 255), batch=batch)
+stats_fill = py.shapes.Rectangle(
+    BUFFER//2, window.height - 75 - (BUFFER//2), 120, 74, color=(0, 0, 0), batch=batch)
+health_txt = py.text.Label(
+    'Thlay', x=BUFFER, y=window.height - 20 - BUFFER, batch=batch)
+stomach_txt = py.text.Label(
+    'Flay', x=BUFFER, y=window.height - 40 - BUFFER, batch=batch)
+poops_txt = py.text.Label(
+    'Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch)
+
 
 @window.event
 def on_draw():
@@ -99,6 +108,6 @@ def on_draw():
 #     if thlay.is_not_dead() == False:
 #         #call end game
 
+
 if __name__ == '__main__':
     py.app.run()
-
