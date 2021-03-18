@@ -1,5 +1,8 @@
 import pyglet as py
 
+py.resource.path = ['../resources']
+py.resource.reindex()
+
 class Title_Rabbit:
     def __init__(self):
         self.frame = 0
