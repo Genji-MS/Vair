@@ -8,9 +8,6 @@ py.resource.reindex()
 #Set audio driver priority
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 intro = py.media.load("./resources/sounds/intro_track.wav", streaming=False)
-poop = py.media.load("./resources/sounds/poop.wav", streaming=False)
-poop_player = py.media.Player()
-poop_player.queue(poop)
 sound_player = py.media.Player()
 sound_player.queue(intro)
 
@@ -43,6 +40,8 @@ def on_mouse_press(x, y, button, modifiers):
         if x > 275 and x < 375:
             if y > 25 and y < 75:
                 print("you clicked the start button")
+                #insert game transition here
+                #discard player() object playing the song here
 
 @window.event
 def on_draw():
