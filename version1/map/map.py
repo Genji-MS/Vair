@@ -5,12 +5,7 @@ import time
 import os
 import json
 from ..game.food import Food
-
-
-class Player:
-    def __init__(self):
-        self.pos = (15, 5)
-        self.value = '\u001b[31mX'
+from ..game.player import Player
 
 
 class GameMap:
@@ -21,6 +16,7 @@ class GameMap:
         chunk = Chunk(0, '0')
         chunk.map[self.player.pos[0]][self.player.pos[1]
                                       ].colliding_objects = [self.player]
+        self.ate_something = False
         print(chunk)
         self.chunks.append(chunk)
         for i in range(1, 10):
@@ -28,25 +24,47 @@ class GameMap:
                 (0, 19, 1, 40)), passed_map_corner=3)
             self.chunks.append(chunk)
 
-    def move_player(self):
-        while True:
-            player_input = ' '
-            while player_input not in 'wasdWASD':
-                player_input = input('\u001b[33mType wasd to move: ')
-            self.chunks[0].map[self.player.pos[0]][self.player.pos[1]
-                                                   ].colliding_objects = None
+    def move_player(self, player_input):
+        if self.player.has_poops():
+            self.chunks[0].map[self.player.pos[0]
+                               ][self.player.pos[1]].colliding_objects = []
+            if player_input in 'wWdDaAsS':
+                self.chunks[0].map[self.player.pos[0]
+                                   ][self.player.pos[1]].non_colliding_objects.append(self.player.poop())
             if player_input in 'wW':
-                self.player.pos = (self.player.pos[0] - 1, self.player.pos[1])
+                self.player.update_position((- 1, 0))
             if player_input in 'dD':
-                self.player.pos = (self.player.pos[0], self.player.pos[1] + 1)
+                self.player.update_position((0, 1))
             if player_input in 'aA':
-                self.player.pos = (self.player.pos[0], self.player.pos[1] - 1)
+                self.player.update_position((0, -1))
             if player_input in 'sS':
-                self.player.pos = (self.player.pos[0] + 1, self.player.pos[1])
-            self.chunks[0].map[self.player.pos[0]][self.player.pos[1]
-                                                   ].colliding_objects = [self.player]
-            print(chr(27) + "[2J")
-            print(self.chunks[self.current_chunk])
+                self.player.update_position((1, 0))
+        if player_input in ' ':
+            if self.chunks[0].map[self.player.pos[0]][self.player.pos[1]].has_food():
+                if self.player.can_eat():
+                    food = self.chunks[0].map[self.player.pos[0]
+                                              ][self.player.pos[1]].remove_food()
+                    self.player.eat(food)
+                    self.ate_something = True
+
+        self.chunks[0].map[self.player.pos[0]][self.player.pos[1]
+                                               ].colliding_objects = [self.player]
+
+    def render_ascii_map(self):
+        print(chr(27) + "[2J")
+        sliced = self.chunks[self.current_chunk].slice((self.player.pos[0]-2,
+                                                        self.player.pos[0]+3,
+                                                        self.player.pos[1]-2,
+                                                        self.player.pos[1]+3,))
+        print(self.chunks[self.current_chunk])
+        render_slice_chunk = Chunk(20, '20', shape=(5, 5))
+        render_slice_chunk.map = sliced
+        print('')
+        print(render_slice_chunk)
+        print('\033[0m')
+        if self.ate_something:
+            print('Whoa you ate something!')
+            self.ate_something = False
 
 
 class TileType(Enum):
@@ -105,7 +123,7 @@ class Location:
             self.non_colliding_objects = [Food('allthesame', food)]
 
     def will_collision_occur(self) -> bool:
-        return self.colliding_objects is not None
+        return len(self.colliding_objects) > 0
 
     def to_json(self) -> str:
         return json.dumps({
@@ -113,6 +131,15 @@ class Location:
             'non_c_o': [item.__dict__ for item in self.non_colliding_objects],
             'c_o': self.colliding_objects,
         })
+
+    def has_food(self):
+        for item in self.non_colliding_objects:
+            if type(item) == type(Food('', '')):
+                return True
+        return False
+
+    def remove_food(self):
+        return self.non_colliding_objects.pop(0)
 
     @classmethod
     def from_json(cls, l_json):
