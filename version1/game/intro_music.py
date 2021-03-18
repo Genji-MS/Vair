@@ -7,7 +7,7 @@ import pyglet as py
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 
 #reference song files and load them
-intro = py.media.load("./resources/intro.wav")
+intro = py.media.load("./resources/sounds/intro.wav")
 nature = py.media.load("./resources/nature_background.wav")
 #play intro
 background_player = py.media.Player()

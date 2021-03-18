@@ -1,8 +1,7 @@
-from food import Food
-from poops import Poops
-from health import Health
+import game.food
+
 class Stomach:
-    max_food_contents = 5 #maximum food allowed in stomach
+    max_food_contents = 8 #maximum food allowed in stomach
     starting_empty_counter = 3 #actions that can be taken on an empty stomach before damage is applied
     empty_counter_damage = 1 #damage that occurs after empty counter is depleted
     starting_contents = [] #placeholder for possible starting food contents
@@ -25,11 +24,13 @@ class Stomach:
             self.empty_counter = self.starting_empty_counter
             return 1
         else:
-            #return false if we already have max food items in contents
-            return -1
+            #if we eat more than our stomach size, puke all but one item and deduct one point of hp 
+            self.contents = [self.contents.pop()]
+            self.health_instance.lose_hp(1)
+            
 
     def isFull(self):
-        return len(self.contents) == self.max_food_contents
+        return len(self.contents) >= 5
 
     def update(self, actions=1):
         if self.current_food_counter <= 0:
@@ -76,57 +77,93 @@ poop = Food('poop', 'poop')
 #poops, hp, and counters are all updated as expected. 
 
 #** tests are run with python3 version1/game/stomach.py**
-stomach.eat(normal)
-print(stomach.contents)
-stomach.eat(helpful)
-print(stomach.contents)
-stomach.eat(harmful)
-print(stomach.contents)
-stomach.eat(poop)
-print(stomach.contents)
-stomach.eat(normal)
-print(stomach.contents)
-
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-print(health)
-print(poops)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-print(health)
+if __name__ == '__main__':
+    stomach.eat(normal)
+    print(stomach.contents)
+    stomach.eat(helpful)
+    print(stomach.contents)
+    stomach.eat(harmful)
+    print(stomach.contents)
+    stomach.eat(poop)
+    print(stomach.contents)
+    stomach.eat(normal)
+    print(stomach.contents)
+    stomach.eat(normal)
+    print(stomach.contents)
+    stomach.eat(helpful)
+    print(stomach.contents)
+    stomach.eat(harmful)
+    print(stomach.contents)
+    stomach.eat(poop)
+    print(stomach.contents)
+    stomach.eat(normal)
+    print(stomach.contents)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)
+    print(poops)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)
+    print(poops)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)
 
 
