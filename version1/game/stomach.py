@@ -63,15 +63,15 @@ class Stomach:
 
 #Tests
 #instantiate stomach, poops, and health
-poops = Poops()
-health = Health()
-stomach = Stomach(poops,health)
+# poops = Poops()
+# health = Health()
+# stomach = Stomach(poops,health)
 
-#instantiate foods
-normal = Food('normal food', 'normal')
-helpful = Food('helpful food', 'helpful')
-harmful = Food('harmful food', 'harmful')
-poop = Food('poop', 'poop')
+# #instantiate foods
+# normal = Food('normal food', 'normal')
+# helpful = Food('helpful food', 'helpful')
+# harmful = Food('harmful food', 'harmful')
+# poop = Food('poop', 'poop')
 
 #The following tests run through eating food, and digesting it through updates where 1 action happens each update. Food gets digested, and 
 #poops, hp, and counters are all updated as expected. 
