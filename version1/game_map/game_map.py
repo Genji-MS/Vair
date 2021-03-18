@@ -68,8 +68,6 @@ class GameMap:
         print(shape)
 
     def populate_chunks_as_none(self):
-        NotImplementedError(
-            'Populate chunks would be used to dynamically generate chunks at the beginning of the game.')
         for _ in range(self.shape[0]):
             row = []
             for __ in range(self.shape[1]):
@@ -77,7 +75,7 @@ class GameMap:
             self.chunks.append(row)
 
     def populate_chunks(self):
-        NotImplementedError(
+        raise NotImplementedError(
             'Populate chunks would be used to dynamically generate chunks at the beginning of the game.')
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
