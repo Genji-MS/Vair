@@ -1,5 +1,9 @@
 import pyglet as py
 
+py.resource.path = ['../resources']
+py.resource.reindex()
+
+
 class Title_Rabbit:
     def __init__(self):
         self.frame = 0
@@ -68,10 +72,11 @@ class Sprite_Rabbit:
     def __init__(self):
         self.frame = 0
         self.frameMAX = 8
-        self.flip = False
         self.x = 325
         self.y = 250
         self.scale_x = 1
+        self.animating = False
+        self.eating = False
         self.img0 = py.resource.image("rabbit/bun_idle_0.png")
         self.img1 = py.resource.image("rabbit/bun_idle_1.png")
         self.img2 = py.resource.image("rabbit/bun_idle_2.png")
@@ -130,10 +135,10 @@ class Sprite_Rabbit:
         self.frame += 1 #increments the array to use the next image %(mod) the length of the array
         if self.frame == self.frameMAX == 16 or self.frame == self.frameMAX == 24:
             #resets our jumping frame cycle back to idle animation
-            self.frameMAX = 8
+            self.end_animation()
         elif self.frame == self.frameMAX == 38:
             #resets our eating cycle to idle
-            self.frameMAX = 8
+            self.end_animation()
             #fix the eat from being reversed
             if self.scale_x > 0:
                 self.scale_x = -1
@@ -176,6 +181,7 @@ class Sprite_Rabbit:
                 self.scale_x = 1
             self.frame = 8
             self.frameMAX = 16
+            self.animating = True
     def hop_in(self, ro = 'X'):
         if self.frameMAX == 8:
             if ro == 'L':
@@ -184,6 +190,7 @@ class Sprite_Rabbit:
                 self.scale_x = 1
             self.frame = 16
             self.frameMAX = 24
+            self.animating = True
     def nom(self):
         if self.frameMAX == 8:
             if self.scale_x > 0:
@@ -192,6 +199,11 @@ class Sprite_Rabbit:
                 self.scale_x = 1
             self.frame = 24
             self.frameMAX = 38
+            self.eating = True
+    def end_animation(self):
+        self.animating = False
+        self.eating = False
+        self.frameMAX = 8
 
 
 class Sprite_Fox:

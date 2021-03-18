@@ -27,7 +27,7 @@ class Food:
             self.PoopValue = 0
             self.HealthValue = 0
             self.HarmValue = 0
-        
+
     def __repr__(self):
         return f'{self.name}:{self.type}'
 

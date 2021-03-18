@@ -7,7 +7,7 @@ class Health:
     def max_hp_check(self):
         if self.current_hp > self.max_hp:
             self.current_hp = self.max_hp
-    
+
     def add_hp(self, amount_to_add):
         self.current_hp += amount_to_add
         self.max_hp_check()
@@ -21,4 +21,3 @@ class Health:
 
     def __repr__(self):
         return f'HP:{self.current_hp}'
-        
