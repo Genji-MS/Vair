@@ -1,6 +1,8 @@
-from food import Food
-from poops import Poops
-from health import Health
+#from food import Food
+#from poops import Poops
+#from health import Health
+import game.food
+
 class Stomach:
     max_food_contents = 5 #maximum food allowed in stomach
     starting_empty_counter = 3 #actions that can be taken on an empty stomach before damage is applied
@@ -60,73 +62,73 @@ class Stomach:
                 self.health_instance.add_hp(popped_food.HealthValue)
                 self.health_instance.lose_hp(popped_food.HarmValue)
 
-#Tests
-#instantiate stomach, poops, and health
-poops = Poops()
-health = Health()
-stomach = Stomach(poops,health)
 
-#instantiate foods
-normal = Food('normal food', 'normal')
-helpful = Food('helpful food', 'helpful')
-harmful = Food('harmful food', 'harmful')
-poop = Food('poop', 'poop')
+if __name__ == '__main__':
+    #Tests
+    #instantiate stomach, poops, and health
+    poops = Poops()
+    health = Health()
+    stomach = Stomach(poops,health)
 
-#The following tests run through eating food, and digesting it through updates where 1 action happens each update. Food gets digested, and 
-#poops, hp, and counters are all updated as expected. 
+    #instantiate foods
+    normal = Food('normal food', 'normal')
+    helpful = Food('helpful food', 'helpful')
+    harmful = Food('harmful food', 'harmful')
+    poop = Food('poop', 'poop')
 
-#** tests are run with python3 version1/game/stomach.py**
-stomach.eat(normal)
-print(stomach.contents)
-stomach.eat(helpful)
-print(stomach.contents)
-stomach.eat(harmful)
-print(stomach.contents)
-stomach.eat(poop)
-print(stomach.contents)
-stomach.eat(normal)
-print(stomach.contents)
+    #The following tests run through eating food, and digesting it through updates where 1 action happens each update. Food gets digested, and 
+    #poops, hp, and counters are all updated as expected. 
 
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-print(health)
-print(poops)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-stomach.update()
-print(stomach)
-print(health)
+    #** tests are run with python3 version1/game/stomach.py**
+    stomach.eat(normal)
+    print(stomach.contents)
+    stomach.eat(helpful)
+    print(stomach.contents)
+    stomach.eat(harmful)
+    print(stomach.contents)
+    stomach.eat(poop)
+    print(stomach.contents)
+    stomach.eat(normal)
+    print(stomach.contents)
 
-
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)
+    print(poops)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    stomach.update()
+    print(stomach)
+    print(health)

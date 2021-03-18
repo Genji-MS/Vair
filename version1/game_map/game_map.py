@@ -1,6 +1,6 @@
-from ..game.player import Player
-from ..game.food import Food
-from .chunk import Chunk
+#from .game.player import Player
+from game.food import Food
+from game_map.chunk import Chunk
 
 
 class GameMap:
