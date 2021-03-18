@@ -1,13 +1,13 @@
 class Health:
-    starting_hp = 5
+    max_hp = 5
 
-    def __init__(self, current_hp):
-        self.current_hp = starting_hp
+    def __init__(self):
+        self.current_hp = self.max_hp
 
     def max_hp_check(self):
-        if self.amount > starting_hp:
-            self.amount = starting_hp
-
+        if self.current_hp > self.max_hp:
+            self.current_hp = self.max_hp
+    
     def add_hp(self, amount_to_add):
         self.current_hp += amount_to_add
         self.max_hp_check()
@@ -18,3 +18,7 @@ class Health:
 
     def is_not_dead(self):
         return self.current_hp > 0
+
+    def __repr__(self):
+        return f'HP:{self.current_hp}'
+        
