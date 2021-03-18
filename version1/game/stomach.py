@@ -1,7 +1,7 @@
-#from food import Food
-#from poops import Poops
-#from health import Health
-import game.food
+# from food import Food
+# from poops import Poops
+# from health import Health
+# import game.food
 
 
 class Stomach:
