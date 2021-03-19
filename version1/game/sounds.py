@@ -31,6 +31,7 @@ class Sound:
         else:
             random.choice(self.category).play()
             
-sounds = Sound()
-sounds.playSound(poops)
-py.app.run()
+if __name__ == '__main__':       
+    sounds = Sound()
+    sounds.playSound(poops)
+    py.app.run()
