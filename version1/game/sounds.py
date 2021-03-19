@@ -3,8 +3,8 @@ import random
 
 # set audio driver options
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-# py.resource.path = ['./resources/sounds']
-# py.resource.reindex()
+py.resource.path = ["../resources"]
+py.resource.reindex()
 poop1 = py.resource.media("sounds/poop.wav", streaming=False)
 intro = py.resource.media("sounds/intro_track.wav", streaming=False)
 jump = py.resource.media("sounds/Jump.wav", streaming=False)
@@ -31,5 +31,6 @@ class Sound:
         else:
             random.choice(self.category).play()
             
-
-
+sounds = Sound()
+sounds.playSound(poops)
+py.app.run()
