@@ -8,7 +8,7 @@ py.resource.reindex()
 
 # Set audio driver priority
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-intro = py.media.load("./resources/sounds/intro_track.wav", streaming=False)
+intro = py.media.load("../resources/sounds/intro_track.wav", streaming=False)
 sound_player = py.media.Player()
 sound_player.queue(intro)
 

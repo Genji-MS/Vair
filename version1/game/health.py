@@ -16,7 +16,7 @@ class Health:
         self.current_hp -= amount_to_lose
         self.max_hp_check()
 
-    def is_not_dead(self):
+    def is_alive(self):
         return self.current_hp > 0
 
     def __repr__(self):

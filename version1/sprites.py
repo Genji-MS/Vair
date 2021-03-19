@@ -3,7 +3,6 @@ import pyglet as py
 py.resource.path = ['../resources']
 py.resource.reindex()
 
-
 class Title_Rabbit:
     def __init__(self):
         self.frame = 0
@@ -204,7 +203,7 @@ class Sprite_Rabbit:
         self.animating = False
         self.eating = False
         self.frameMAX = 8
-
+        
 
 class Sprite_Fox:
     def __init__(self):
