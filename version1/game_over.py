@@ -9,7 +9,7 @@ py.resource.reindex()
 # Set audio driver priority
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 #replace intro with death song
-game_over = py.media.load("./resources/sounds/intro_track.wav", streaming=False)
+game_over = py.media.load("./resources/sounds/game_over.wav", streaming=False)
 sound_player = py.media.Player()
 sound_player.queue(game_over)
 
