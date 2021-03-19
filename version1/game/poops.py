@@ -18,7 +18,7 @@ class Poops:
         self.amount += amount
         self.max_poop_check()
 
-    def make_poop(self, x, y):
+    def make_poop(self):
         self.amount -= 1
     
     def get_stats(self):
