@@ -164,7 +164,7 @@ class Chunk:
             str_row = ''
             for i in row:
                 str_row += str(i)
-            str_row += '\n'
+            str_row += '\n\n'
             entire_map += str_row
         return entire_map[:len(entire_map)-1]
 

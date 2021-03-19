@@ -12,8 +12,8 @@ class GameMap:
         self.chunks = []
         self.populate_chunks_as_none()
 
-        # player value used for Ascii render
-        self.player_value = '\u001b[31mX'
+        # player value used for Ascii render \u001b[31m
+        self.player_value = 'X'
 
         # setting the current chunk
         self.cur_chunk = (shape_in_chunks[0] - 1, 0)
@@ -146,6 +146,7 @@ class GameMap:
         return not self.current_chunk().map[x][y].will_collision_occur()
 
     def move_player(self, move_vect):
+        move_vect = (move_vect[1]*-1, move_vect[0])
         self.current_chunk().map[self.player_pos[0]
                                  ][self.player_pos[1]].colliding_objects = []
         self.player_pos = (self.player_pos[0] + move_vect[0],
@@ -187,6 +188,9 @@ class GameMap:
     def render_slice(self):
         # Just renders the view slice
         print(Chunk(-1, 'not', map=self.return_slice()))
+
+    def return_slice_as_string(self):
+        return str(Chunk(-1, 'not', map=self.return_slice()))
 
 
 def test():
