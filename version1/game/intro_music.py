@@ -1,6 +1,6 @@
 import pyglet as py
 # set up resource path
-# py.resource.path = ['./resources']
+# py.resource.path = ['./resources/sounds']
 # py.resource.reindex()
 
 # set audio driver options

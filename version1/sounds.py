@@ -13,6 +13,7 @@ eat = py.resource.media("sounds/Eating.wav", streaming=False)
 bonk = py.resource.media("sounds/bonk.wav", streaming=False)
 
 class Sound:
+    #initializes sound class with pre loaded media resources in their respective list 'categories'
     def __init__(self):
         self.poops = [poop1]
         self.intro = [intro]
@@ -22,6 +23,7 @@ class Sound:
         self.bonk = [bonk]
 
     def playSound(self, category):
+        """if only one item in category, play that sound. if more, pick a random sound byte in that category to play"""
         if len(self.category) == 0:
             return -1
         elif len(self.category) == 1:
