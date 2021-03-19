@@ -6,16 +6,27 @@ from game_map.location import Location
 from game_map.tile_type import TileType
 
 
+"""
+    This map generation works stochastically so if we have:
+
+    [barren, barren, prarry] surounding the tile we are genrating we might have:
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.0, 0.10, 0.85, 0.05, 0.] = # prairie
+    [0.5, 1.40, 1.05, 0.05, 0.] / 3 =
+    [0.166, 0.466, 0.35, 0.016, 0.] chances of getting a:
+    [rock, barren, prairie, lush_prairie, forest] tile type
+"""
 POSIBLE_TILES = [TileType.rock, TileType.barren,
                  TileType.prairie, TileType.lush_prairie, TileType.forest]
 
 BASIC_TILE_PROBS = {
     TileType.no_tile: [0., 0., 0., 0., 0.],
-    TileType.rock: [0.005, 0.40, 0.595, 0., 0.],
-    TileType.barren: [0.005, 0.905, 0.09, 0., 0.],
-    TileType.prairie: [0.005, 0.04, 0.905, 0.05, 0.],
-    TileType.lush_prairie: [0.005, 0., 0.04, 0.905, 0.05],
-    TileType.forest: [0.005, 0., 0., 0.095, 0.9],
+    TileType.rock: [0.25, 0.7, 0., 0., 0.05],
+    TileType.barren: [0.25, 0.65, 0.1, 0., 0.],
+    TileType.prairie: [0.0, 0.10, 0.85, 0.05, 0.],
+    TileType.lush_prairie: [0.0, 0., 0.85, 0.1, 0.05],
+    TileType.forest: [0.005, 0.005, 0., 0.09, 0.9],
 }
 
 
@@ -36,11 +47,16 @@ class Chunk:
     This map generation works stochastically so if we have:
 
     [barren, barren, prarry] surounding the tile we are genrating we might have:
-    barren = [0.5, 0.5, 0] * 2
-    prarry = [0.25, 0.5, 0.25]
-    or [1.25, 1.5, 0.25] =
-       [0.4166, 0.5, 0.0833] probabilities of getting a
-       [barren, plain, lush] tile
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.0, 0.10, 0.85, 0.05, 0.] =# prairie
+    ^ Sum the top three ^  =
+
+    [0.5, 1.40, 1.05, 0.05, 0.] / 3 =
+    ^ Divide by 3 so the probabbilities add to 1^
+
+    [0.166, 0.466, 0.35, 0.016, 0.] chances of getting a:
+    [rock, barren, prairie, lush_prairie, forest] tile type
 
     , thus making it reliant on existing tiles but more easily extended if we
     wanted a continously generated open world feel.
@@ -150,7 +166,7 @@ class Chunk:
                 str_row += str(i)
             str_row += '\n'
             entire_map += str_row
-        return entire_map[:len(entire_map)-2]
+        return entire_map[:len(entire_map)-1]
 
     def slice_for_render(self, shape):
         if shape[0] < 0 and shape[2] < 0:

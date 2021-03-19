@@ -4,7 +4,7 @@ import os
 
 
 class GameMap:
-    def __init__(self, seed, try_too_load_saved_from_seed=True, shape_in_chunks=(2, 200), chunk_shape=(50, 50)) -> None:
+    def __init__(self, seed, try_too_load_saved_from_seed=False, shape_in_chunks=(1, 1), chunk_shape=(50, 50)) -> None:
         self.seed = seed
         self.shape = shape_in_chunks
         self.chunk_shape = chunk_shape
@@ -49,6 +49,7 @@ class GameMap:
         return self.chunks[self.cur_chunk[0]][self.cur_chunk[1]]
 
     def generate_and_split_chunks(self):
+        # Uses a lot of RAM
         shape = self.shape[0] * \
             self.chunk_shape[0], self.shape[1] * self.chunk_shape[1]
         whole_map = Chunk(self.seed, 'whole', shape=shape)
@@ -75,6 +76,7 @@ class GameMap:
             self.chunks.append(row)
 
     def populate_chunks(self):
+        # Uses a lot less RAM
         raise NotImplementedError(
             'Populate chunks would be used to dynamically generate chunks at the beginning of the game.')
         for i in range(self.shape[0]):
@@ -159,7 +161,7 @@ class GameMap:
         return self.current_chunk().map[self.player_pos[0]][self.player_pos[1]
                                                             ].remove_food(food_index)
 
-    def create_poop(self,):
+    def create_poop(self):
         self.current_chunk().map[self.player_pos[0]][self.player_pos[1]].non_colliding_objects.append(
             Food('Poop', 'poop'))
 
@@ -176,18 +178,21 @@ class GameMap:
         print('\033[0m')
 
     def return_slice(self):
+        # return a regular 2d array of location objects
         return self.current_chunk().slice((self.player_pos[0]-2,
                                            self.player_pos[0]+3,
                                            self.player_pos[1]-2,
                                            self.player_pos[1]+3,))
 
     def render_slice(self):
+        # Just renders the view slice
         print(Chunk(-1, 'not', map=self.return_slice()))
 
 
 def test():
     game_map = GameMap(seed=0)
     game_map.render_ascii_map_and_slice()
+    """
     game_map.render_ascii_map_and_slice()
     print('should return a list with one food or none with current seed we have one food')
     print(game_map.what_food_is_here())
@@ -198,6 +203,7 @@ def test():
     print(game_map.is_move_valid((-1, 0)))
     game_map.move_player((-1, 0))
     game_map.render_ascii_map_and_slice()
+    """
 
 
 if __name__ == '__main__':
