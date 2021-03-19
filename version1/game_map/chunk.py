@@ -164,7 +164,7 @@ class Chunk:
             str_row = ''
             for i in row:
                 str_row += str(i)
-            str_row += '\n\n'
+            str_row += '\n'
             entire_map += str_row
         return entire_map[:len(entire_map)-1]
 
@@ -173,15 +173,15 @@ class Chunk:
             # Top left
             return [self.map[i][0: shape[3]] for i in range(0, shape[1])]
 
-        if shape[1] <= self.shape[0] and shape[3] <= self.shape[2]:
+        if shape[1] >= self.shape[0] and shape[3] >= self.shape[1]:
             # Bottom right
-            return [self.map[i][shape[2]: self.shape[2] - 1] for i in range(shape[0], self.shape[0] - 1)]
+            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(shape[0], self.shape[0] - 1)]
 
-        if shape[0] < 0 and shape[3] <= self.shape[2]:
+        if shape[0] < 0 and shape[3] >= self.shape[1]:
             # top right
-            return [self.map[i][shape[2]: self.shape[2] - 1] for i in range(0, shape[1])]
+            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(0, shape[1])]
 
-        if shape[1] <= self.shape[0] and shape[2] < 0:
+        if shape[1] >= self.shape[0] and shape[2] < 0:
             # bottom left
             return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0] - 1)]
 
@@ -189,13 +189,13 @@ class Chunk:
             # top
             return [self.map[i][shape[2]: shape[3]] for i in range(0, shape[1])]
 
-        if shape[1] <= self.shape[0]:
+        if shape[1] >= self.shape[0]:
             # bottom
             return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], self.shape[0] - 1)]
 
-        if shape[3] <= self.shape[2]:
+        if shape[3] >= self.shape[1]:
             # right
-            return [self.map[i][shape[2]: self.shape[2] - 1] for i in range(shape[0], shape[1])]
+            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(shape[0], shape[1])]
 
         if shape[2] < 0:
             # left

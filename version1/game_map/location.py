@@ -35,11 +35,15 @@ class Location:
         self.food_probabilities = food_probabilities
         self.food_types = food_types
 
-    def grow_food(self):
+    def grow_food(self):  # Also Grows Rocks for some reason???
         food = random.choices(
             self.food_types, weights=self.food_probabilities[self.tile])[0]
         if food is not None:
             self.non_colliding_objects = [Food('allthesame', food)]
+        if self.tile == TileType.rock:
+            if random.random() > 0.7:
+                # ansi escape  = \u001b[37m
+                self.colliding_objects.append('\u001b[37mR')
 
     def will_collision_occur(self) -> bool:
         return len(self.colliding_objects) > 0
@@ -75,5 +79,7 @@ class Location:
                 return self.colliding_objects[0]
             return self.colliding_objects[0].value
         if len(self.non_colliding_objects) != 0:
+            if type(self.non_colliding_objects[0]) == str:
+                return self.non_colliding_objects[0]
             return self.non_colliding_objects[0].value
         return self.tile.value
