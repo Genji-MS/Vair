@@ -5,13 +5,16 @@ import game.poops as Hraka
 import game.stomach as Flay
 import game_map.game_map as World
 
+
 world = World.GameMap(0)
 thlay = Thlay.Health()
 hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
 
-dispatcher.push_handlers(end_animation=sprites.end_animation)
+
+#dispatcher.push_handelers(end_animation=sprites.end_animation)
+
 
 
 def anchor_center(image):
@@ -27,18 +30,18 @@ py.clock.schedule_interval(vair.update, 0.07)
 
 window = py.window.Window()
 # bg_color = py.shapes.Rectangle(0,0,window.width, window.height, color=(22, 78, 22))
-batch = py.graphics.Batch()
+batch_bg = py.graphics.Batch()
+batch_stats = py.graphics.Batch()
 BUFFER = 8  # padding
-stats_border = py.shapes.Rectangle((BUFFER//2)-1, window.height - (
-    75+1) - (BUFFER//2), 120+2, 74+2, color=(255, 255, 255), batch=batch)
-stats_fill = py.shapes.Rectangle(
-    BUFFER//2, window.height - 75 - (BUFFER//2), 120, 74, color=(0, 0, 0), batch=batch)
-health_txt = py.text.Label(
-    'Thlay', x=BUFFER, y=window.height - 20 - BUFFER, batch=batch)
-stomach_txt = py.text.Label(
-    'Flay', x=BUFFER, y=window.height - 40 - BUFFER, batch=batch)
-poops_txt = py.text.Label(
-    'Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch)
+STATS_BUFFER = 66
+stats_border = py.shapes.Rectangle((BUFFER//2)-1, window.height - (75+1) - (BUFFER//2), 120+2, 74+2, color=(255, 255, 255), batch=batch_bg)
+stats_fill = py.shapes.Rectangle(BUFFER//2, window.height - 75 - (BUFFER//2), 120, 74, color=(0, 0, 0), batch=batch_bg)
+health_txt = py.text.Label('Thlay', x=BUFFER + 3, y=window.height - 20 - BUFFER, batch=batch_stats)
+stomach_txt = py.text.Label('Flay', x=BUFFER + 12, y=window.height - 40 - BUFFER, batch=batch_stats)
+poops_txt = py.text.Label('Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch_stats)
+health_val = py.text.Label(f'{thlay.current_hp} / {thlay.max_hp}', x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
+stomach_val = py.text.Label(f'{flay.current_food_counter} / {flay.max_food_contents}', x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
+poops_val = py.text.Label(f'{hraka.amount}', x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
 
 
 @window.event
@@ -46,12 +49,13 @@ def on_draw():
     window.clear()
     # bg_color.draw()
     vair.sprite.draw()
-    batch.draw()
+    batch_bg.draw()
+    batch_stats.draw()
 
 
 @window.event
 def on_key_press(symbol, modifiers):
-    if not sprites.animation:  # ensure no animations are active before receiving input
+    if not vair.animating:  # ensure no animations are active before receiving input
         if symbol == py.window.key.SPACE:  # eat food
             food_menu = world.what_food_is_here()
             if food_menu.len:
@@ -62,7 +66,7 @@ def on_key_press(symbol, modifiers):
             # set defaults
             hop_dir = 'X'
             hop_side = 'X'
-            hop_target = [pos_x, pos_y]
+            hop_target = [0, 0]
             # project movement
             if symbol == py.window.key.Q:
                 hop_dir = 'out'
@@ -91,19 +95,25 @@ def on_key_press(symbol, modifiers):
             # check if projected position is valid
             if world.is_move_valid(hop_target):
                 # animating = True    #prevents input while we animate
+                hraka.make_poop(pos_x, pos_y) #decriment poops
+                world.create_poop()
                 if hop_dir == 'in':
                     vair.hop_in(hop_side)
                 else:
                     vair.hop_out(hop_side)
                 world.move_player(hop_target)
+                py.clock.schedule_once(on_anim_complete, 0.6)
 
 
-@dispatcher.event
-def end_animation():
+def on_anim_complete(_):
     flay.update()
-    if thlay.is_not_dead() == False:
+    health_val.text = f'{thlay.current_hp} / {thlay.max_hp}'
+    stomach_val.text = f'{flay.current_food_counter} / {flay.max_food_contents}'
+    poops_val.text = f'{hraka.amount}'
+    if thlay.is_alive() == False:
         pass
         # call end game
+    world.render_slice()
 
 
 if __name__ == '__main__':
