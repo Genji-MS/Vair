@@ -18,6 +18,9 @@ class Health:
 
     def is_alive(self):
         return self.current_hp > 0
+    
+    def get_stats(self):
+        return f'{self.current_hp} / {self.max_hp}'
 
     def __repr__(self):
         return f'HP:{self.current_hp}'
