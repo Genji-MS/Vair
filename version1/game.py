@@ -12,7 +12,9 @@ hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
 
+
 #dispatcher.push_handelers(end_animation=sprites.end_animation)
+
 
 
 def anchor_center(image):
