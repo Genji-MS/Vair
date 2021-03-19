@@ -4,7 +4,7 @@ import os
 
 
 class GameMap:
-    def __init__(self, seed, try_too_load_saved_from_seed=False, shape_in_chunks=(1, 1), chunk_shape=(50, 50)) -> None:
+    def __init__(self, seed, try_too_load_saved_from_seed=True, shape_in_chunks=(1, 1), chunk_shape=(50, 50)) -> None:
         self.seed = seed
         self.shape = shape_in_chunks
         self.chunk_shape = chunk_shape
@@ -13,7 +13,7 @@ class GameMap:
         self.populate_chunks_as_none()
 
         # player value used for Ascii render \u001b[31m
-        self.player_value = 'X'
+        self.player_value = '\u001b[31mX'
 
         # setting the current chunk
         self.cur_chunk = (shape_in_chunks[0] - 1, 0)
@@ -66,7 +66,7 @@ class GameMap:
                         j*self.chunk_shape[1] + self.chunk_shape[1],
                     ))
                 ).save()
-        print(shape)
+        # print(shape)
 
     def populate_chunks_as_none(self):
         for _ in range(self.shape[0]):
@@ -140,8 +140,12 @@ class GameMap:
         self.chunks[x][y] = self.chunks[x][y].save()
 
     def is_move_valid(self, move_vect):
+        move_vect = (move_vect[1]*-1, move_vect[0])
         x, y = self.player_pos[0] + \
             move_vect[0], self.player_pos[1] + move_vect[1]
+        # print(x, y)
+        if x < 0 or y < 0 or x >= self.shape[0]*self.chunk_shape[0] - 1 or y >= self.shape[1]*self.chunk_shape[1] - 1:
+            return False
 
         return not self.current_chunk().map[x][y].will_collision_occur()
 
@@ -167,19 +171,25 @@ class GameMap:
             Food('Poop', 'poop'))
 
     def render_ascii_map(self):
+        print(chr(27) + "[2J")
         print(self.current_chunk())
+        print('\033[0m')
 
     def render_ascii_map_and_slice(self):
-        # print(chr(27) + "[2J")
+        print(chr(27) + "[2J")
         # sliced = self.return_slice()
         print(self.current_chunk())
 
         print('')
-        self.render_slice()
+        print(Chunk(-1, 'not', map=self.return_slice()))
         print('\033[0m')
 
     def return_slice(self):
         # return a regular 2d array of location objects
+        return self.current_chunk().slice_for_render((self.player_pos[0]-2,
+                                                      self.player_pos[0]+3,
+                                                      self.player_pos[1]-2,
+                                                      self.player_pos[1]+3,))
         return self.current_chunk().slice((self.player_pos[0]-2,
                                            self.player_pos[0]+3,
                                            self.player_pos[1]-2,
@@ -187,7 +197,9 @@ class GameMap:
 
     def render_slice(self):
         # Just renders the view slice
+        print(chr(27) + "[2J")
         print(Chunk(-1, 'not', map=self.return_slice()))
+        print('\033[0m')
 
     def return_slice_as_string(self):
         return str(Chunk(-1, 'not', map=self.return_slice()))

@@ -12,7 +12,7 @@ class Poops:
     def addPoops(self, amount):
         self.amount += amount
 
-    def make_poop(self, x, y):
+    def make_poop(self):
         self.amount -= 1
 
     def __repr__(self):
