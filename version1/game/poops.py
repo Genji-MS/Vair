@@ -1,5 +1,5 @@
 class Poops:
-    self.max_poops = 200
+    max_poops = 200
     def __init__(self, amount=5):
         # start the game with 5 poops, unless otherwise specified
         self.amount = amount
