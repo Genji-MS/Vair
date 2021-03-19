@@ -3,12 +3,16 @@ import json
 from game.food import Food
 from game_map.tile_type import TileType
 
+# Refernce the list below for what food the probability is affecting
 BASIC_FOODPROBS = {
-    TileType.rock: [0.75, 0.25, 0., 0.],
-    TileType.barren: [1., 0., 0., 0.],
-    TileType.prairie: [0.5, 0.1, 0.25, 0.15],
-    TileType.lush_prairie: [0.25, 0.1, 0.40, 0.25],
-    TileType.forest: [0.4, 0.1, 0.2, 0.3],
+    # Given the tile type, What food will spawn on top
+    # rock tiles have a 100% probability of having no food
+    TileType.rock: [1., 0., 0., 0.],
+    # barren tiles have a 95% probability of having no food and a 5% probability of having harmful food.
+    TileType.barren: [.95, 0.05, 0., 0.],
+    TileType.prairie: [0.865, 0., 0.08, 0.005],
+    TileType.lush_prairie: [0.25, 0., 0.50, 0.25],
+    TileType.forest: [0.65, 0.25, 0.1, 0.],
 }
 
 BASIC_FOOD = [None, 'harmful', 'normal', 'helpful']

@@ -4,24 +4,28 @@ class Food:
         self.name = name
         self.type = food_type
         if self.type == 'normal':
-            self.value = '\u001b[35m('
+            # Magenta
+            self.value = '\u001b[35mN'
             self.TimeToProcess = 3
             self.PoopValue = 5
             self.HealthValue = 0
             self.HarmValue = 0
         elif self.type == 'harmful':
-            self.value = '\u001b[31m('
+            # red
+            self.value = '\u001b[31mB'
             self.TimeToProcess = 2
             self.PoopValue = 0
             self.HealthValue = 0
             self.HarmValue = 1
         elif self.type == 'helpful':
-            self.value = '\u001b[33m('
+            # Yellow
+            self.value = '\u001b[33mG'
             self.TimeToProcess = 1
             self.PoopValue = 3
             self.HealthValue = 1
             self.HarmValue = 0
         elif self.type == 'poop':
+            # Yellow
             self.value = '\u001b[33mP'
             self.TimeToProcess = 2
             self.PoopValue = 0
