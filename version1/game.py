@@ -11,6 +11,12 @@ thlay = Thlay.Health()
 hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
+world_slice = world.return_slice()
+tiles = []
+for y in range(5):
+    col = []
+    for x in range(5):
+        tile = world_slice[x][y]
 
 #dispatcher.push_handelers(end_animation=sprites.end_animation)
 
@@ -37,18 +43,18 @@ stats_fill = py.shapes.Rectangle(BUFFER//2, window.height - 75 - (BUFFER//2), 12
 health_txt = py.text.Label('Thlay', x=BUFFER + 3, y=window.height - 20 - BUFFER, batch=batch_stats)
 stomach_txt = py.text.Label('Flay', x=BUFFER + 12, y=window.height - 40 - BUFFER, batch=batch_stats)
 poops_txt = py.text.Label('Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch_stats)
-health_val = py.text.Label(f'{thlay.current_hp} / {thlay.max_hp}', x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
-stomach_val = py.text.Label(f'{flay.current_food_counter} / {flay.max_food_contents}', x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
-poops_val = py.text.Label(f'{hraka.amount}', x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
+health_val = py.text.Label(thlay.get_stats(), x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
+stomach_val = py.text.Label(flay.get_stats(), x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
+poops_val = py.text.Label(hraka.get_stats(), x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
 
 
 @window.event
 def on_draw():
     window.clear()
     # bg_color.draw()
-    vair.sprite.draw()
     batch_bg.draw()
     batch_stats.draw()
+    vair.sprite.draw()
 
 
 @window.event
@@ -92,9 +98,8 @@ def on_key_press(symbol, modifiers):
                 hop_target[1] -= 1
             # check if projected position is valid
             if world.is_move_valid(hop_target):
-                # animating = True    #prevents input while we animate
                 hraka.make_poop(pos_x, pos_y) #decriment poops
-                world.create_poop()
+                world.create_poop() #put a poop into the map
                 if hop_dir == 'in':
                     vair.hop_in(hop_side)
                 else:
@@ -105,13 +110,17 @@ def on_key_press(symbol, modifiers):
 
 def on_anim_complete(_):
     flay.update()
-    health_val.text = f'{thlay.current_hp} / {thlay.max_hp}'
-    stomach_val.text = f'{flay.current_food_counter} / {flay.max_food_contents}'
-    poops_val.text = f'{hraka.amount}'
+    health_val.text = thlay.get_stats()
+    stomach_val.text = flay.get_stats()
+    poops_val.text = hraka.get_stats()
     if thlay.is_alive() == False:
         pass
         # call end game
+    #update graphics to be drawn
     world.render_slice()
+    world_slice = world.return_slice()
+
+
 
 
 if __name__ == '__main__':
