@@ -4,12 +4,12 @@ from enum import Enum
 class TileType(Enum):
     no_tile = '!'
     # \u001b[37m
-    rock = '@'
+    rock = '\u001b[37m@'
     # \u001b[30m
-    barren = '|'
+    barren = '\u001b[30m|'
     # \u001b[34m
-    prairie = '-'
+    prairie = '\u001b[34m-'
     # \u001b[36m
-    lush_prairie = '*'
+    lush_prairie = '\u001b[36m*'
     # \u001b[32m
-    forest = '^'
+    forest = '\u001b[32m^'

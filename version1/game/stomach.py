@@ -30,6 +30,9 @@ class Stomach:
             self.contents = [self.contents.pop()]
             self.health_instance.lose_hp(1)
 
+    def getSize(self):
+        return f'{len(self.contents)}/{self.max_food_contents}'        
+
     def isFull(self):
         return len(self.contents) >= 5
 
@@ -62,6 +65,8 @@ class Stomach:
                 self.health_instance.add_hp(popped_food.HealthValue)
                 self.health_instance.lose_hp(popped_food.HarmValue)
 
+    def get_stats(self):
+        return f'{len(self.contents)} / {self.max_food_contents}'
 
 if __name__ == '__main__':
     # Tests

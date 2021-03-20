@@ -13,12 +13,10 @@ flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
 world_slice = world.return_slice()
 tiles = []
-for y in range(5):
-    col = []
-    for x in range(5):
-        tile = world_slice[x][y]
-
-#dispatcher.push_handelers(end_animation=sprites.end_animation)
+# for y in range(5):
+#     col = []
+#     for x in range(5):
+#         tile = world_slice[x][y]
 
 
 def anchor_center(image):
@@ -98,7 +96,7 @@ def on_key_press(symbol, modifiers):
                 hop_target[1] -= 1
             # check if projected position is valid
             if world.is_move_valid(hop_target):
-                hraka.make_poop(pos_x, pos_y) #decriment poops
+                hraka.make_poop() #decriment poops
                 world.create_poop() #put a poop into the map
                 if hop_dir == 'in':
                     vair.hop_in(hop_side)
@@ -119,8 +117,6 @@ def on_anim_complete(_):
     #update graphics to be drawn
     world.render_slice()
     world_slice = world.return_slice()
-
-
 
 
 if __name__ == '__main__':
