@@ -1,6 +1,6 @@
 class Poops:
     max_poops = 200
-    def __init__(self, amount=5):
+    def __init__(self, amount=50):
         # start the game with 5 poops, unless otherwise specified
         self.amount = amount
 
@@ -20,7 +20,7 @@ class Poops:
 
     def make_poop(self):
         self.amount -= 1
-        
+
     
     def get_stats(self):
         return f'{self.amount} / {self.max_poops}'
