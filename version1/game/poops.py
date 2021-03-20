@@ -20,6 +20,7 @@ class Poops:
 
     def make_poop(self):
         self.amount -= 1
+        
     
     def get_stats(self):
         return f'{self.amount} / {self.max_poops}'
