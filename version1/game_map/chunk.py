@@ -171,37 +171,37 @@ class Chunk:
     def slice_for_render(self, shape):
         if shape[0] < 0 and shape[2] < 0:
             # Top left
-            return [self.map[i][0: shape[3]] for i in range(0, shape[1])]
+            return [self.map[i][0: shape[3]] for i in range(0, shape[1])], 'top left'
 
         if shape[1] >= self.shape[0] and shape[3] >= self.shape[1]:
             # Bottom right
-            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(shape[0], self.shape[0] - 1)]
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(shape[0], self.shape[0])], 'bottom right'
 
         if shape[0] < 0 and shape[3] >= self.shape[1]:
             # top right
-            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(0, shape[1])]
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(0, shape[1])], 'top right'
 
         if shape[1] >= self.shape[0] and shape[2] < 0:
             # bottom left
-            return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0] - 1)]
+            return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom_left'
 
         if shape[0] < 0:
             # top
-            return [self.map[i][shape[2]: shape[3]] for i in range(0, shape[1])]
+            return [self.map[i][shape[2]: shape[3]] for i in range(0, shape[1])], 'top'
 
         if shape[1] >= self.shape[0]:
             # bottom
-            return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], self.shape[0] - 1)]
+            return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom'
 
         if shape[3] >= self.shape[1]:
             # right
-            return [self.map[i][shape[2]: self.shape[1] - 1] for i in range(shape[0], shape[1])]
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(shape[0], shape[1])], 'right'
 
         if shape[2] < 0:
             # left
-            return [self.map[i][0: shape[3]] for i in range(shape[0], shape[1])]
+            return [self.map[i][0: shape[3]] for i in range(shape[0], shape[1])], 'left'
         # base case
-        return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], shape[1])]
+        return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], shape[1])], 'base'
 
     def slice(self, shape) -> list:
         return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], shape[1])]
