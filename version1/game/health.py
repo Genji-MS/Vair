@@ -23,8 +23,16 @@ class Health:
     def get_stats(self):
         return f'{self.current_hp} / {self.max_hp}'
     
-    def get_bar_width(self):
-        return self.current_hp / self.max_hp
+    def get_bar_update(self):
+        bar_percent = self.current_hp / self.max_hp
+        color = None
+        if bar_percent >= 0.75:
+            color = (0, 100, 0)
+        elif bar_percent > 0.25:
+            color = (128, 128, 0)
+        elif bar_percent <= 0.25:
+            color = (255, 0, 0)
+        return [bar_percent, color]
     
     def new_game(self):
         self.current_hp = self.max_hp
