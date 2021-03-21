@@ -68,6 +68,9 @@ class Stomach:
     def get_stats(self):
         return f'{len(self.contents)} / {self.max_food_contents}'
     
+    def get_bar_width(self):
+        return len(self.contents) / self.max_food_contents
+    
     def new_game(self):
         self.current_food_counter = self.starting_food_counter
         self.contents = self.starting_contents
