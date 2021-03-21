@@ -68,8 +68,16 @@ class Stomach:
     def get_stats(self):
         return f'{len(self.contents)} / {self.max_food_contents}'
     
-    def get_bar_width(self):
-        return len(self.contents) / self.max_food_contents
+    def get_bar_update(self):
+        bar_percent = len(self.contents)/self.max_food_contents
+        color = None
+        if bar_percent >= 0.75:
+            color = (0, 100, 0)
+        elif bar_percent > 0.25:
+            color = (128, 128, 0)
+        elif bar_percent <= 0.25:
+            color = (255, 0, 0)
+        return [bar_percent, color]
     
     def new_game(self):
         self.current_food_counter = self.starting_food_counter
