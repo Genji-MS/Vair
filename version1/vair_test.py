@@ -63,7 +63,7 @@ def game_intro():
     global GAME_MODE, sound_player, vair, text, butn, butn2, pos_x, pos_y, world_slice
     GAME_MODE = 'intro'
     #////////////////////INTRO///////////////
-    song = py.media.load("./resources/sounds/intro_track.wav", streaming=False)
+    song = py.media.load("../resources/sounds/intro_track.wav", streaming=False)
     sound_player.queue(song)
     #////////////////////////////////////////    
     vair = sprites.Title_Rabbit()
@@ -106,7 +106,7 @@ def game_outro():
     global GAME_MODE, sound_player, vair, text, butn, butn2, pos_x, pos_y, world_slice
     GAME_MODE = 'outro'
     #//////////////////OUTRO/////////////////
-    song = py.media.load("./resources/sounds/game_over.wav", streaming=False)
+    song = py.media.load("../resources/sounds/game_over.wav", streaming=False)
     sound_player.queue(song)
     #/////////////UNSCHEDULING///////////////
     clocks = [vair, text]
