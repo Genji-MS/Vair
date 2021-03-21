@@ -186,10 +186,10 @@ class GameMap:
 
     def return_slice(self):
         # return a regular 2d array of location objects
-        return self.current_chunk().slice_for_render((self.player_pos[0]-2,
-                                                      self.player_pos[0]+3,
-                                                      self.player_pos[1]-2,
-                                                      self.player_pos[1]+3,))
+        # return self.current_chunk().slice_for_render((self.player_pos[0]-2,
+        #                                               self.player_pos[0]+3,
+        #                                               self.player_pos[1]-2,
+        #                                               self.player_pos[1]+3,))
         return self.current_chunk().slice((self.player_pos[0]-2,
                                            self.player_pos[0]+3,
                                            self.player_pos[1]-2,

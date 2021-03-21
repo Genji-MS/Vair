@@ -66,7 +66,7 @@ class Stomach:
                 self.health_instance.lose_hp(popped_food.HarmValue)
 
     def get_stats(self):
-            return f'{len(self.contents)} / {self.max_food_contents}'
+        return f'{len(self.contents)} / {self.max_food_contents}'
 
 if __name__ == '__main__':
     # Tests

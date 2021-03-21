@@ -1,4 +1,5 @@
 import pyglet as py
+import random
 
 py.resource.path = ['../resources']
 py.resource.reindex()
@@ -203,7 +204,7 @@ class Sprite_Rabbit:
         self.animating = False
         self.eating = False
         self.frameMAX = 8
-        
+
 
 class Sprite_Fox:
     def __init__(self):
@@ -227,6 +228,98 @@ class Sprite_Fox:
         currentFrame = self.frame%self.frameMAX
         self.sprite = py.sprite.Sprite(img = self.img_seq[currentFrame], x=420, y=140) 
         self.sprite.scale = 0.6
+
+class Ground:
+    def __init__(self):
+        self.frame = 0
+        self.prairie0 = py.resource.image("tiles/g_green_0.png")
+        self.prairie1 = py.resource.image("tiles/g_green_1.png")
+        self.prairie2 = py.resource.image("tiles/g_green_2.png")
+        self.prairie3 = py.resource.image("tiles/g_green_3.png")
+        self.prairie4 = py.resource.image("tiles/g_green_4.png")
+        self.prairie5 = py.resource.image("tiles/g_green_5.png")
+        self.prairie6 = py.resource.image("tiles/g_green_6.png")
+        self.prairie7 = py.resource.image("tiles/g_green_7.png")
+        self.lush0 = py.resource.image("tiles/g_d_grn_0.png")
+        self.lush1 = py.resource.image("tiles/g_d_grn_1.png")
+        self.lush2 = py.resource.image("tiles/g_d_grn_2.png")
+        self.lush3 = py.resource.image("tiles/g_d_grn_3.png")
+        self.lush4 = py.resource.image("tiles/g_d_grn_4.png")
+        self.lush5 = py.resource.image("tiles/g_d_grn_5.png")
+        self.lush6 = py.resource.image("tiles/g_d_grn_6.png")
+        self.lush7 = py.resource.image("tiles/g_d_grn_7.png")
+        self.rock0 = py.resource.image("tiles/g_wht_0.png")
+        self.rock1 = py.resource.image("tiles/g_wht_1.png")
+        self.rock2 = py.resource.image("tiles/g_wht_2.png")
+        self.rock3 = py.resource.image("tiles/g_wht_3.png")
+        self.rock4 = py.resource.image("tiles/g_wht_4.png")
+        self.rock5 = py.resource.image("tiles/g_wht_5.png")
+        self.rock6 = py.resource.image("tiles/g_wht_6.png")
+        self.rock7 = py.resource.image("tiles/g_wht_7.png")
+        self.barren0 = py.resource.image("tiles/g_yelo_0.png")
+        self.barren1 = py.resource.image("tiles/g_yelo_1.png")
+        self.barren2 = py.resource.image("tiles/g_yelo_2.png")
+        self.barren3 = py.resource.image("tiles/g_yelo_3.png")
+        self.barren4 = py.resource.image("tiles/g_yelo_4.png")
+        self.barren5 = py.resource.image("tiles/g_yelo_5.png")
+        self.barren6 = py.resource.image("tiles/g_yelo_6.png")
+        self.barren7 = py.resource.image("tiles/g_yelo_7.png")
+        self.forest0 = py.resource.image("tiles/g_brn_0.png")
+        self.forest1 = py.resource.image("tiles/g_brn_1.png")
+        self.forest2 = py.resource.image("tiles/g_brn_2.png")
+        self.forest3 = py.resource.image("tiles/g_brn_3.png")
+        self.forest4 = py.resource.image("tiles/g_brn_4.png")
+        self.forest5 = py.resource.image("tiles/g_brn_5.png")
+        self.forest6 = py.resource.image("tiles/g_brn_6.png")
+        self.forest7 = py.resource.image("tiles/g_brn_7.png")
+        self.prairie_seq = [self.prairie0, self.prairie1, self.prairie2,
+                            self.prairie3, self.prairie4, self.prairie5,
+                            self.prairie6, self.prairie7]
+        self.lush_seq = [self.lush0, self.lush1, self.lush2, self.lush3,
+                        self.lush4, self.lush5, self.lush6, self.lush7]
+        self.rock_seq = [self.rock0, self.rock1, self.rock2, self.rock3,
+                        self.rock4, self.rock5, self.rock6, self.rock7]
+        self.barren_seq = [self.barren0, self.barren1, self.barren2,
+                            self.barren3, self.barren4, self.barren5,
+                            self.barren6, self.barren7]
+        self.forrest_seq = [self.forest0, self.forest1, self.forest2,
+                            self.forest3, self.forest4, self.forest5,
+                            self.forest6, self.forest7]
+    def make_tile(self, tile_type,x=0,y=0,frame=-1):
+        if tile_type == 'prairie':
+            self.make_prarie(x,y,frame)
+        elif tile_type == 'lush_prairie':
+            self.make_lush(x,y,frame)
+        elif tile_type == 'rock':
+            self.make_rock(x,y,frame)
+        elif tile_type == 'barren':
+            self.make_barren(x,y,frame)
+        elif tile_type == 'forest':
+            self.make_barren(x,y,frame)
+        else:
+            print('tile type {tile_type} is not a scripted option')
+    def make_prarie(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.prairie_seq[frame], x= x, y = y)
+    def make_lush(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.lush_seq[frame], x= x, y = y)
+    def make_rock(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.rock_seq[frame], x= x, y = y)
+    def make_barren(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.barren_seq[frame], x= x, y = y)
+    def make_forrest(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.forrest_seq[frame], x= x, y = y)
+
+
 
 if __name__ == '__main__':
     print(__name__)
