@@ -24,6 +24,12 @@ class Poops:
     
     def get_stats(self):
         return f'{self.amount} / {self.max_poops}'
+    
+    def get_bar_width(self):
+        return self.amount / self.max_poops
+        
+    def new_game(self):
+        self.amount = 50
 
     def __repr__(self):
         return f'Poops:{self.amount}'
