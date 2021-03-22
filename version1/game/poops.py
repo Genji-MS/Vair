@@ -24,6 +24,20 @@ class Poops:
     
     def get_stats(self):
         return f'{self.amount} / {self.max_poops}'
+    
+    def get_bar_update(self):
+        bar_percent = self.amount / self.max_poops
+        color = None
+        if bar_percent >= 0.75:
+            color = (0, 100, 0)
+        elif bar_percent > 0.25:
+            color = (128, 128, 0)
+        elif bar_percent <= 0.25:
+            color = (255, 0, 0)
+        return [bar_percent, color]
+
+    def new_game(self):
+        self.amount = 50
 
     def __repr__(self):
         return f'Poops:{self.amount}'

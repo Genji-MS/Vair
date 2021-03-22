@@ -45,6 +45,9 @@ food_fill = py.shapes.Rectangle(window.width - stats_fill.x - stats_fill.width, 
 health_txt = py.text.Label('Thlay', x=BUFFER + 3, y=window.height - 20 - BUFFER, batch=batch_stats)
 stomach_txt = py.text.Label('Flay', x=BUFFER + 12, y=window.height - 40 - BUFFER, batch=batch_stats)
 poops_txt = py.text.Label('Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch_stats)
+health_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=health_txt.y, width=thlay.get_bar_update()[0] * 50, height=12, color=thlay.get_bar_update()[1], batch=batch_stats)
+stomach_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=stomach_txt.y, width=flay.get_bar_update()[0] * 50, height=12, color=flay.get_bar_update()[1], batch=batch_stats)
+poop_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=poops_txt.y, width=hraka.get_bar_update()[0] * 50, height=12, color=hraka.get_bar_update()[1], batch=batch_stats)
 health_val = py.text.Label(thlay.get_stats(), x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
 stomach_val = py.text.Label(flay.get_stats(), x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
 poops_val = py.text.Label(hraka.get_stats(), x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
@@ -60,7 +63,7 @@ def game_intro():
     global GAME_MODE, sound_player, vair, text, butn, butn2, pos_x, pos_y, world_slice
     GAME_MODE = 'intro'
     #////////////////////INTRO///////////////
-    song = py.media.load("../resources/sounds/intro_track.wav", streaming=False)
+    song = py.media.load("./resources/sounds/intro_track.wav", streaming=False)
     sound_player.queue(song)
     #////////////////////////////////////////    
     vair = sprites.Title_Rabbit()
@@ -103,7 +106,7 @@ def game_outro():
     global GAME_MODE, sound_player, vair, text, butn, butn2, pos_x, pos_y, world_slice
     GAME_MODE = 'outro'
     #//////////////////OUTRO/////////////////
-    song = py.media.load("../resources/sounds/game_over.wav", streaming=False)
+    song = py.media.load("./resources/sounds/game_over.wav", streaming=False)
     sound_player.queue(song)
     #/////////////UNSCHEDULING///////////////
     clocks = [vair, text]
@@ -125,13 +128,19 @@ def game_outro():
     py.clock.schedule_interval(vair.update, 0.07)
 
 def on_anim_complete(_):
-    global GAME_MODE, sound_player, world, thlay, flay, hraka, vair, text, pos_x, pos_y, world_slice, menu, health_val, stomach_val, poops_val, food1_txt, food2_txt, food3_txt
+    global GAME_MODE, sound_player, world, thlay, flay, hraka, vair, text, pos_x, pos_y, world_slice, menu, health_bar, stomach_bar, poop_bar, health_val, stomach_val, poops_val, food1_txt, food2_txt, food3_txt
     #update stomach with number of moves
     flay.update()
     #updates stats
     health_val.text = thlay.get_stats()
+    health_bar.width = thlay.get_bar_update()[0] * 50 #ADDED THIS LINE
+    health_bar.color = thlay.get_bar_update()[1]
     stomach_val.text = flay.get_stats()
+    stomach_bar.width = flay.get_bar_update()[0] * 50 #added this line
+    stomach_bar.color =  flay.get_bar_update()[1] #added this line
     poops_val.text = hraka.get_stats()
+    poop_bar.width = hraka.get_bar_update()[0] * 50 #added this line
+    poop_bar.color = hraka.get_bar_update()[1] #added this line
     #empty food menu
     food1_txt.text = ''
     food2_txt.text = ''
