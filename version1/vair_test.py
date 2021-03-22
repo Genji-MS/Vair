@@ -45,9 +45,9 @@ food_fill = py.shapes.Rectangle(window.width - stats_fill.x - stats_fill.width, 
 health_txt = py.text.Label('Thlay', x=BUFFER + 3, y=window.height - 20 - BUFFER, batch=batch_stats)
 stomach_txt = py.text.Label('Flay', x=BUFFER + 12, y=window.height - 40 - BUFFER, batch=batch_stats)
 poops_txt = py.text.Label('Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch_stats)
-health_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=health_txt.y, width=thlay.get_bar_update()[0] * 50, height=12, color=thlay.get_bar_update()[1], batch=batch_stats)
-stomach_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=stomach_txt.y, width=flay.get_bar_update()[0] * 50, height=12, color=flay.get_bar_update()[1], batch=batch_stats)
-poop_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=poops_txt.y, width=hraka.get_bar_update()[0] * 50, height=12, color=hraka.get_bar_update()[1], batch=batch_stats)
+health_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=health_txt.y, width=thlay.get_bar_update()[0], height=12, color=thlay.get_bar_update()[1], batch=batch_stats)
+stomach_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=stomach_txt.y, width=flay.get_bar_update()[0], height=12, color=flay.get_bar_update()[1], batch=batch_stats)
+poop_bar = py.shapes.Rectangle(x=STATS_BUFFER, y=poops_txt.y, width=hraka.get_bar_update()[0], height=12, color=hraka.get_bar_update()[1], batch=batch_stats)
 health_val = py.text.Label(thlay.get_stats(), x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
 stomach_val = py.text.Label(flay.get_stats(), x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
 poops_val = py.text.Label(hraka.get_stats(), x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
@@ -133,13 +133,13 @@ def on_anim_complete(_):
     flay.update()
     #updates stats
     health_val.text = thlay.get_stats()
-    health_bar.width = thlay.get_bar_update()[0] * 50 #ADDED THIS LINE
+    health_bar.width = thlay.get_bar_update()[0] #ADDED THIS LINE
     health_bar.color = thlay.get_bar_update()[1]
     stomach_val.text = flay.get_stats()
-    stomach_bar.width = flay.get_bar_update()[0] * 50 #added this line
+    stomach_bar.width = flay.get_bar_update()[0] #added this line
     stomach_bar.color =  flay.get_bar_update()[1] #added this line
     poops_val.text = hraka.get_stats()
-    poop_bar.width = hraka.get_bar_update()[0] * 50 #added this line
+    poop_bar.width = hraka.get_bar_update()[0] #added this line
     poop_bar.color = hraka.get_bar_update()[1] #added this line
     #empty food menu
     food1_txt.text = ''

@@ -34,7 +34,7 @@ class Poops:
             color = (128, 128, 0)
         elif bar_percent <= 0.25:
             color = (255, 0, 0)
-        return [bar_percent, color]
+        return [bar_percent * 50, color]
 
     def new_game(self):
         self.amount = 50
