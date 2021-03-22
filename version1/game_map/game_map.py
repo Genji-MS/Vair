@@ -363,7 +363,8 @@ class GameMap:
 
 def test():
     game_map = GameMap(seed=0)
-    game_map.render_ascii_map_and_slice()
+    # game_map.render_ascii_map_and_slice()
+    print(game_map.return_slice())
     """
     game_map.render_ascii_map_and_slice()
     print('should return a list with one food or none with current seed we have one food')
