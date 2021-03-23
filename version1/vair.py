@@ -16,6 +16,8 @@ py.resource.reindex()
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 sound_player = py.media.Player()
 
+sound_player.volume = 0.1
+
 def anchor_center(image):
     """set the anchor point of an image to its center"""
     image.anchor_x = image.width//2
@@ -196,7 +198,10 @@ def on_anim_complete(_):
             tile_x = coord_tile_left + (x*coord_tile_dim_x)
             #create floor tiles
             tile = world_slice[y][x].tile.name
-            tile_graphic = sprites.Ground()
+            if tile == 'water':
+                tile_graphic = sprites.Water()
+            else:
+                tile_graphic = sprites.Ground()
             tile_graphic.make_tile(tile, tile_x, tile_y)
             tile_graphic.sprite.batch = batch_tiles
             tiles.append(tile_graphic)
