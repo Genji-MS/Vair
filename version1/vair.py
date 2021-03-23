@@ -8,6 +8,7 @@ from pyglet.window import mouse
 import random
 
 
+
 # ////////////////////INIT//////////////////
 py.resource.path = ['../resources']
 py.resource.reindex()
@@ -204,7 +205,8 @@ def on_anim_complete(_):
     if len(menu) >= 3:
         food3_txt.text = f'#3 : {menu[2].name}'
 
-    # world.render_slice()  #draws map to terminal
+    #world.render_slice()  #draws map to terminal
+    world.render_ascii_map()
     # tile defaults
     world_slice = world.return_slice()
     coord_tile_top = 430 + 60
@@ -259,7 +261,8 @@ def on_anim_complete(_):
                         #print (f'rock: {rock}')
     # Check if we died
     if thlay.is_alive() == False:
-        game_outro()
+        pass
+        #game_outro()
     #world_slice = world.return_slice()
 
 

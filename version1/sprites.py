@@ -349,7 +349,7 @@ class Ground:
         elif tile_type == 'barren':
             self.make_barren(x,y,frame)
         elif tile_type == 'forest':
-            self.make_barren(x,y,frame)
+            self.make_forrest(x,y,frame)
         else:
             print('tile type of {tile_type} not a known ground type')
         self.sprite.scale = 2
