@@ -14,6 +14,17 @@ Next run
 `$ python3 version1/vair.py`
 
 
+Controls:
+
+`Q W E` - Move upLeft, Up, upRight
+
+`A S D` - Move downLeft, Down, downRight
+
+`Space` - Wait a turn
+
+`1,2,3` - Eat food located in upper right HUD
+
+
 Ascii tile and food reference list:
 
   Tiles:
