@@ -160,19 +160,19 @@ class GameMap:
 
     def is_move_valid(self, move_vect):
         move_vect = (move_vect[1]*-1, move_vect[0])
-        x, y = self.player_pos[0] + \
-            move_vect[0], self.player_pos[1] + move_vect[1]
+        x, y = ((self.player_pos[0] +
+                 move_vect[0]) % self.chunk_shape[0]), ((self.player_pos[1] + move_vect[1]) % self.chunk_shape[1])
 
-        x = (self.player_pos_relative_to_0_0[0] +
-             move_vect[0]) % self.chunk_shape[0]
-        y = (self.player_pos_relative_to_0_0[1] +
-             move_vect[1]) % self.chunk_shape[1]
+        relative_to_0_0_x = (self.player_pos_relative_to_0_0[0] +
+                             move_vect[0])
+        relative_to_0_0_y = (self.player_pos_relative_to_0_0[1] +
+                             move_vect[1])
         next_chunk_x = (
             self.player_pos_relative_to_0_0[0] + move_vect[0]) // self.chunk_shape[0]
         next_chunk_y = (
             self.player_pos_relative_to_0_0[1] + move_vect[1]) // self.chunk_shape[1]
 
-        if x < 0 or y < 0 or x >= self.shape[0]*self.chunk_shape[0] - 1 or y >= self.shape[1]*self.chunk_shape[1] - 1:
+        if relative_to_0_0_x < 0 or relative_to_0_0_y < 0 or relative_to_0_0_x >= self.shape[0]*self.chunk_shape[0] or relative_to_0_0_y >= self.shape[1]*self.chunk_shape[1]:
             return False
 
         return not self.chunks[next_chunk_x][next_chunk_y].map[x][y].will_collision_occur()
