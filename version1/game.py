@@ -6,7 +6,7 @@ import game.stomach as Flay
 import game_map.game_map as World
 
 
-world = World.GameMap(0)
+world = World.GameMap(4)
 thlay = Thlay.Health()
 hraka = Hraka.Poops()
 flay = Flay.Stomach(hraka, thlay)
@@ -70,12 +70,12 @@ for y in range(5):
         tile_y -= coord_tile_dim_y//2
         tile_x = coord_tile_left + (x*coord_tile_dim_x)
         tile = world_slice[y][x].tile.name
-        food = len(world_slice[x][y].non_colliding_objects) > 0
+        food = len(world_slice[y][x].non_colliding_objects) > 0
         tile_graphic = sprites.Ground()
         tile_graphic.make_tile(tile, tile_x, tile_y)
         tile_graphic.sprite.batch = batch_tiles
         tiles.append(tile_graphic)
-        if food:
+        if food == True:
             tile_food = sprites.Grass()
             tile_food.make_tile(tile_x, tile_y)
             tile_food.sprite.batch = batch_tiles

@@ -8,6 +8,7 @@ class Title_Rabbit:
     def __init__(self):
         self.frame = 0
         self.frameMAX = 8
+        self.animating = True
         self.title0 = py.resource.image("title/bun_60_2_0.png")
         self.title1 = py.resource.image("title/bun_60_2_1.png")
         self.title2 = py.resource.image("title/bun_60_2_2.png")
@@ -72,6 +73,7 @@ class Dead_Rabbit:
     def __init__(self):
         self.frame = 0
         self.frameMAX = 8
+        self.animating = True
         self.scale_x = 1
         self.x = 325
         self.y = 250
@@ -158,7 +160,9 @@ class Sprite_Rabbit:
         self.update(0)
     def update(self, _):
         #clock sends a parameter. '_' used (as in GO) to denote a variable we don't use
-        self.frame += 1 #increments the array to use the next image %(mod) the length of the array
+        if self.frameMAX == 8:
+            self.frame = random.randint(0,7)
+        else: self.frame += 1 #increments the array to use the next image %(mod) the length of the array
         if self.frame == self.frameMAX == 16 or self.frame == self.frameMAX == 24:
             #resets our jumping frame cycle back to idle animation
             self.end_animation()
@@ -378,8 +382,52 @@ class Grass:
     def make_tile(self, x=0, y=0,frame=-1):
         if frame == -1:
             frame = random.randint(0,15)
-        self.sprite = py.sprite.Sprite(img = self.grass_seq[frame], x= x, y = y)     
+        self.sprite = py.sprite.Sprite(img = self.grass_seq[frame], x= x, y = y)
+        self.sprite.scale = 0.50
+        self.sprite.scale_x = 0.75 #(0.75, -1.75)[random.randint(0,1)]//requires centered spites
         
+class Rock:
+    def __init__(self):
+        self.frame = 0
+        self.rock_0 = py.resource.image("tiles/Stone_0.png")
+        self.rock_1 = py.resource.image("tiles/Stone_1.png")
+        self.rock_2 = py.resource.image("tiles/Stone_2.png")
+        self.rock_3 = py.resource.image("tiles/Stone_3.png")
+        self.rock_4 = py.resource.image("tiles/Stone_4.png")
+        self.rock_5 = py.resource.image("tiles/Stone_5.png")
+        self.rock_6 = py.resource.image("tiles/Stone_6.png")
+        self.rock_7 = py.resource.image("tiles/Stone_7.png")
+        
+        self.rock_seq = [self.rock_0, self.rock_1, self.rock_2, self.rock_3,
+                        self.rock_4, self.rock_5, self.rock_6, self.rock_7]
+    def make_tile(self, x=0, y=0,frame=-1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.rock_seq[frame], x= x+13, y = y+4)
+        self.sprite.scale = 0.3
+
+class Poop:
+    def __init__(self):
+        self.frame = 0
+        self.poop_0 = py.resource.image("tiles/poop_0.png")
+        self.poop_1 = py.resource.image("tiles/poop_1.png")
+        self.poop_2 = py.resource.image("tiles/poop_2.png")
+        self.poop_3 = py.resource.image("tiles/poop_3.png")
+        self.poop_4 = py.resource.image("tiles/poop_4.png")
+        self.poop_5 = py.resource.image("tiles/poop_5.png")
+        self.poop_6 = py.resource.image("tiles/poop_6.png")
+        self.poop_7 = py.resource.image("tiles/poop_7.png")
+        
+        self.poop_seq = [self.poop_0, self.poop_1, self.poop_2, self.poop_3,
+                        self.poop_4, self.poop_5, self.poop_6, self.poop_7]
+    def make_tile(self, x=0, y=0,frame=-1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        #randomising where poop is
+        pos_x = 35 + random.randint(0,10)
+        pos_y = 35 + random.randint(0,10)
+        self.sprite = py.sprite.Sprite(img = self.poop_seq[frame], x= x + pos_x, y = y + pos_y)
+        self.sprite.scale = 0.1
 
 if __name__ == '__main__':
     print(__name__)

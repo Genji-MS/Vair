@@ -2,7 +2,8 @@ from game.food import Food
 from game_map.chunk import Chunk
 import os
 
-
+#same seed, False, (2,20), (50,50) //same map
+#any int, False, (2,20), (50,50)  //new map
 class GameMap:
     def __init__(self, seed, try_too_load_saved_from_seed=True, shape_in_chunks=(1, 1), chunk_shape=(50, 50)) -> None:
         self.seed = seed
@@ -186,10 +187,10 @@ class GameMap:
 
     def return_slice(self):
         # return a regular 2d array of location objects
-        # return self.current_chunk().slice_for_render((self.player_pos[0]-2,
-        #                                               self.player_pos[0]+3,
-        #                                               self.player_pos[1]-2,
-        #                                               self.player_pos[1]+3,))
+        return self.current_chunk().slice_for_render((self.player_pos[0]-2,
+                                                      self.player_pos[0]+3,
+                                                      self.player_pos[1]-2,
+                                                      self.player_pos[1]+3,))
         return self.current_chunk().slice((self.player_pos[0]-2,
                                            self.player_pos[0]+3,
                                            self.player_pos[1]-2,
@@ -197,7 +198,7 @@ class GameMap:
 
     def render_slice(self):
         # Just renders the view slice
-        print(chr(27) + "[2J")
+        # print(chr(27) + "[2J")
         print(Chunk(-1, 'not', map=self.return_slice()))
         print('\033[0m')
 
