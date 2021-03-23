@@ -52,9 +52,12 @@ class GameMap:
             # alternate less RAM intensive way to gen all chunks, not implemented
             # self.populate_chunks()
             # Simple brute force gen the map
-            path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                'chunks/')
-            rmtree(path)
+            try:
+                path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                    'chunks/')
+                rmtree(path)
+            except:
+                pass
             print('generating new map...')
             self.generate_and_split_chunks()
             self.load_chunk(self.cur_chunk[0], self.cur_chunk[1])

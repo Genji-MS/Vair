@@ -13,6 +13,7 @@ BASIC_FOODPROBS = {
     TileType.prairie: [0.865, 0., 0.08, 0.005],
     TileType.lush_prairie: [0.25, 0., 0.50, 0.25],
     TileType.forest: [0.65, 0.25, 0.1, 0.],
+    TileType.water: [1, 0, 0, 0]
 }
 
 BASIC_FOOD = [None, 'harmful', 'normal', 'helpful']

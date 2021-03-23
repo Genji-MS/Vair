@@ -13,3 +13,4 @@ class TileType(Enum):
     lush_prairie = '\u001b[36m*'
     # \u001b[32m
     forest = '\u001b[32m^'
+    water = '\u001b[36m~'
