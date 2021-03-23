@@ -9,13 +9,14 @@ import random
 
 
 # ////////////////////INIT//////////////////
-py.resource.path = ['./resources']
+py.resource.path = ['../resources']
 py.resource.reindex()
 
 # Set audio driver priority
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 sound_player = py.media.Player()
 sound_player.volume = 0.1
+
 
 def anchor_center(image):
     """set the anchor point of an image to its center"""
