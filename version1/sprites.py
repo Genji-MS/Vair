@@ -261,6 +261,28 @@ class Sprite_Fox:
         self.sprite = py.sprite.Sprite(img = self.img_seq[currentFrame], x=420, y=140) 
         self.sprite.scale = 0.6
 
+class Water:
+    def __init__(self):
+        self.ocean0 = py.resource.image("tiles_bezier/g_blue_0.png")
+        self.ocean1 = py.resource.image("tiles_bezier/g_blue_1.png")
+        self.ocean2 = py.resource.image("tiles_bezier/g_blue_2.png")
+        self.ocean3 = py.resource.image("tiles_bezier/g_blue_3.png")
+        self.ocean4 = py.resource.image("tiles_bezier/g_blue_4.png")
+        self.ocean5 = py.resource.image("tiles_bezier/g_blue_5.png")
+        self.ocean6 = py.resource.image("tiles_bezier/g_blue_6.png")
+        self.ocean7 = py.resource.image("tiles_bezier/g_blue_7.png")
+        self.ocean_seq = [self.ocean0, self.ocean1, self.ocean2,
+                            self.ocean3, self.ocean4, self.ocean5,
+                            self.ocean6, self.ocean7]
+    def make_tile(self, tile_type,x=0,y=0,frame=-1):
+        self.make_ocean(x,y,frame)
+        self.sprite.scale = 1
+        self.sprite.scale_x = 1.25
+    def make_ocean(self, x=0, y=0, frame = -1):
+        if frame == -1:
+            frame = random.randint(0,7)
+        self.sprite = py.sprite.Sprite(img = self.ocean_seq[frame], x= x, y = y)
+
 class Ground:
     def __init__(self):
         self.frame = 0
@@ -329,7 +351,7 @@ class Ground:
         elif tile_type == 'forest':
             self.make_barren(x,y,frame)
         else:
-            print('tile type {tile_type} is not a scripted option')
+            print('tile type of {tile_type} not a known ground type')
         self.sprite.scale = 2
         self.sprite.scale_x = 1.25
     def make_prarie(self, x=0, y=0, frame = -1):
