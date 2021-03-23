@@ -51,8 +51,7 @@ stats_fill = py.shapes.Rectangle(
 stats_txt = py.text.Label('STATS', x=stats_border.x + stats_border.width//2-30, y=stats_border.y +
                           stats_border.height + 4, bold=True, color=(0, 180, 20, 255), batch=batch_bg)
 
-food_border = py.shapes.Rectangle(window.width - stats_border.x - stats_border.width, window.height - (
-    MENU_HEIGHT+2) - (MENU_BUFFER), MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
+food_border = py.shapes.Rectangle(window.width - stats_border.x - stats_border.width, window.height - (MENU_HEIGHT+2) - (MENU_BUFFER), MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
 food_fill = py.shapes.Rectangle(food_border.x + 1, food_border.y + 1,
                                 MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
 food_txt = py.text.Label('FOOD', x=food_border.x + food_border.width//2-24, y=food_border.y +
@@ -206,7 +205,7 @@ def on_anim_complete(_):
         food3_txt.text = f'#3 : {menu[2].name}'
 
     #world.render_slice()  #draws map to terminal
-    world.render_ascii_map()
+    #world.render_ascii_map()
     # tile defaults
     world_slice = world.return_slice()
     coord_tile_top = 430 + 60
@@ -261,8 +260,8 @@ def on_anim_complete(_):
                         #print (f'rock: {rock}')
     # Check if we died
     if thlay.is_alive() == False:
-        pass
-        #game_outro()
+        #pass
+        game_outro()
     #world_slice = world.return_slice()
 
 
