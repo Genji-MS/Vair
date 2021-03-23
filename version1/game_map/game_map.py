@@ -1,13 +1,16 @@
 from game.food import Food
 from game_map.chunk import Chunk
 import os
-
+from shutil import rmtree
 # same seed, False, (2,20), (50,50) //same map
 # any int, False, (2,20), (50,50)  //new map
 
+# Defualts for production try_too_load_saved_from_seed=False, shape_in_chunks=(2, 20), chunk_shape=(50, 50)
+# Defualts for production try_too_load_saved_from_seed=True, shape_in_chunks=(2, 2), chunk_shape=(20, 40)
+
 
 class GameMap:
-    def __init__(self, seed, try_too_load_saved_from_seed=True, shape_in_chunks=(2, 2), chunk_shape=(20, 40)) -> None:
+    def __init__(self, seed, try_too_load_saved_from_seed=False, shape_in_chunks=(2, 200), chunk_shape=(50, 50)) -> None:
         self.seed = seed
         self.shape = shape_in_chunks
         self.chunk_shape = chunk_shape
@@ -17,11 +20,12 @@ class GameMap:
 
         # player value used for Ascii render \u001b[31m
         self.player_value = '\u001b[31mX'
+        self.win_location = (0, 20, 0, 20)
 
         # setting the current chunk
-        self.cur_chunk = [shape_in_chunks[0] - 1, 0]
+        self.cur_chunk = [shape_in_chunks[0] - 1, shape_in_chunks[1] - 1]
         # setting the player position
-        self.player_pos = [5, 35]
+        self.player_pos = [45, 45]
         # find position relative to absolute (0,0)
         self.player_pos_relative_to_0_0 = [
             self.cur_chunk[0]*chunk_shape[0] + self.player_pos[0],
@@ -40,13 +44,23 @@ class GameMap:
                 self.generate_and_split_chunks()
                 self.load_chunk(self.cur_chunk[0], self.cur_chunk[1])
         else:
-            print('Not loading from seed, generating map...')
+            print('Not loading from seed, ')
+            print('cleaning up floating chunks, ')
+
             # alternate less RAM intensive way to gen all chunks, not implemented
             # self.populate_chunks()
             # Simple brute force gen the map
+            path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                'chunks/')
+            rmtree(path)
+            print('generating new map...')
             self.generate_and_split_chunks()
             self.load_chunk(self.cur_chunk[0], self.cur_chunk[1])
         self.move_player((0, 0))
+
+    def has_won(self):
+        return self.win_location[0] <= self.player_pos_relative_to_0_0[0] < self.win_location[1] and \
+            self.win_location[2] <= self.player_pos_relative_to_0_0[1] < self.win_location[3]
 
     def set_rel_player_position_to_chunk_and_position(self):
         self.cur_chunk[0] = self.player_pos_relative_to_0_0[0] // self.chunk_shape[0]
