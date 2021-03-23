@@ -7,8 +7,6 @@ import game_map.game_map as World
 from pyglet.window import mouse
 import random
 
-
-
 # ////////////////////INIT//////////////////
 py.resource.path = ['../resources']
 py.resource.reindex()
@@ -44,48 +42,31 @@ batch_bg = py.graphics.Batch()
 MENU_BUFFER = 24  # padding
 MENU_WIDTH = 120
 MENU_HEIGHT = 74
-stats_border = py.shapes.Rectangle((MENU_BUFFER)-1, 0 + (MENU_HEIGHT//2+2) -
-                                   MENU_BUFFER, MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
-stats_fill = py.shapes.Rectangle(
-    stats_border.x + 1, stats_border.y + 1, MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
-stats_txt = py.text.Label('STATS', x=stats_border.x + stats_border.width//2-30, y=stats_border.y +
-                          stats_border.height + 4, bold=True, color=(0, 180, 20, 255), batch=batch_bg)
+stats_border = py.shapes.Rectangle((MENU_BUFFER)-1, 0 + (MENU_HEIGHT//2+2) - MENU_BUFFER, MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
+stats_fill = py.shapes.Rectangle(stats_border.x + 1, stats_border.y + 1, MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
+stats_txt = py.text.Label('STATS', x=stats_border.x + stats_border.width//2-30, y=stats_border.y + stats_border.height + 4, bold=True, color=(0, 180, 20, 255), batch=batch_bg)
 
 food_border = py.shapes.Rectangle(window.width - stats_border.x - stats_border.width, window.height - (MENU_HEIGHT+2) - (MENU_BUFFER), MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
-food_fill = py.shapes.Rectangle(food_border.x + 1, food_border.y + 1,
-                                MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
-food_txt = py.text.Label('FOOD', x=food_border.x + food_border.width//2-24, y=food_border.y +
-                         food_border.height + 4, bold=True, color=(0, 180, 20, 255), batch=batch_bg)
+food_fill = py.shapes.Rectangle(food_border.x + 1, food_border.y + 1, MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
+food_txt = py.text.Label('FOOD', x=food_border.x + food_border.width//2-24, y=food_border.y + food_border.height + 4, bold=True, color=(0, 180, 20, 255), batch=batch_bg)
 
 batch_stats = py.graphics.Batch()
 STATS_BUFFER = 60
-health_txt = py.text.Label('Thlay', x=stats_fill.x +
-                           11, y=stats_fill.y + 52, batch=batch_stats)
-stomach_txt = py.text.Label(
-    'Flay', x=stats_fill.x + 20, y=stats_fill.y + 32, batch=batch_stats)
-poops_txt = py.text.Label('Hraka', x=stats_fill.x + 8,
-                          y=stats_fill.y + 12, batch=batch_stats)
+health_txt = py.text.Label('Thlay', x=stats_fill.x + 11, y=stats_fill.y + 52, batch=batch_stats)
+stomach_txt = py.text.Label('Flay', x=stats_fill.x + 20, y=stats_fill.y + 32, batch=batch_stats)
+poops_txt = py.text.Label('Hraka', x=stats_fill.x + 8, y=stats_fill.y + 12, batch=batch_stats)
 
-health_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=health_txt.y, height=12,
-                                 width=thlay.get_bar_update()[0], color=thlay.get_bar_update()[1], batch=batch_bg)
-stomach_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=stomach_txt.y, height=12,
-                                  width=flay.get_bar_update()[0], color=flay.get_bar_update()[1], batch=batch_bg)
-poop_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=poops_txt.y, height=12,
-                               width=hraka.get_bar_update()[0], color=hraka.get_bar_update()[1], batch=batch_bg)
+health_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=health_txt.y, height=12, width=thlay.get_bar_update()[0], color=thlay.get_bar_update()[1], batch=batch_bg)
+stomach_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=stomach_txt.y, height=12, width=flay.get_bar_update()[0], color=flay.get_bar_update()[1], batch=batch_bg)
+poop_bar = py.shapes.Rectangle(x=stats_fill.x + STATS_BUFFER, y=poops_txt.y, height=12, width=hraka.get_bar_update()[0], color=hraka.get_bar_update()[1], batch=batch_bg)
 
-health_val = py.text.Label(thlay.get_stats(
-), x=stats_fill.x + STATS_BUFFER, y=health_txt.y, batch=batch_stats)
-stomach_val = py.text.Label(flay.get_stats(
-), x=stats_fill.x + STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
-poops_val = py.text.Label(hraka.get_stats(
-),  x=stats_fill.x + STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
+health_val = py.text.Label(thlay.get_stats(), x=stats_fill.x + STATS_BUFFER, y=health_txt.y, batch=batch_stats)
+stomach_val = py.text.Label(flay.get_stats(), x=stats_fill.x + STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
+poops_val = py.text.Label(hraka.get_stats(),  x=stats_fill.x + STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
 
-food1_txt = py.text.Label('', x=food_fill.x + 6,
-                          y=food_fill.y + 52, batch=batch_stats)
-food2_txt = py.text.Label('', x=food_fill.x + 6,
-                          y=food_fill.y + 32, batch=batch_stats)
-food3_txt = py.text.Label('', x=food_fill.x + 6,
-                          y=food_fill.y + 12, batch=batch_stats)
+food1_txt = py.text.Label('', x=food_fill.x + 6, y=food_fill.y + 52, batch=batch_stats)
+food2_txt = py.text.Label('', x=food_fill.x + 6, y=food_fill.y + 32, batch=batch_stats)
+food3_txt = py.text.Label('', x=food_fill.x + 6, y=food_fill.y + 12, batch=batch_stats)
 
 batch_tiles = py.graphics.Batch()
 tiles = []
