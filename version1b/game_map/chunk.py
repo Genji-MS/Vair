@@ -2,20 +2,31 @@ import random
 import json
 import os
 import time
-from .location import Location
-from .tile_type import TileType
+from game_map.location import Location
+from game_map.tile_type import TileType
 
 
+"""
+    This map generation works stochastically so if we have:
+
+    [barren, barren, prarry] surounding the tile we are genrating we might have:
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.0, 0.10, 0.85, 0.05, 0.] = # prairie
+    [0.5, 1.40, 1.05, 0.05, 0.] / 3 =
+    [0.166, 0.466, 0.35, 0.016, 0.] chances of getting a:
+    [rock, barren, prairie, lush_prairie, forest] tile type
+"""
 POSIBLE_TILES = [TileType.rock, TileType.barren,
                  TileType.prairie, TileType.lush_prairie, TileType.forest]
 
 BASIC_TILE_PROBS = {
     TileType.no_tile: [0., 0., 0., 0., 0.],
-    TileType.rock: [0.005, 0.40, 0.595, 0., 0.],
-    TileType.barren: [0.005, 0.905, 0.09, 0., 0.],
-    TileType.prairie: [0.005, 0.04, 0.905, 0.05, 0.],
-    TileType.lush_prairie: [0.005, 0., 0.04, 0.905, 0.05],
-    TileType.forest: [0.005, 0., 0., 0.095, 0.9],
+    TileType.rock: [0.25, 0.7, 0., 0., 0.05],
+    TileType.barren: [0.25, 0.65, 0.1, 0., 0.],
+    TileType.prairie: [0.0, 0.10, 0.85, 0.05, 0.],
+    TileType.lush_prairie: [0.0, 0., 0.85, 0.1, 0.05],
+    TileType.forest: [0.005, 0.005, 0., 0.09, 0.9],
 }
 
 
@@ -36,11 +47,16 @@ class Chunk:
     This map generation works stochastically so if we have:
 
     [barren, barren, prarry] surounding the tile we are genrating we might have:
-    barren = [0.5, 0.5, 0] * 2
-    prarry = [0.25, 0.5, 0.25]
-    or [1.25, 1.5, 0.25] =
-       [0.4166, 0.5, 0.0833] probabilities of getting a
-       [barren, plain, lush] tile
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.25, 0.65, 0.1, 0., 0.] + # barren
+    [0.0, 0.10, 0.85, 0.05, 0.] =# prairie
+    ^ Sum the top three ^  =
+
+    [0.5, 1.40, 1.05, 0.05, 0.] / 3 =
+    ^ Divide by 3 so the probabbilities add to 1^
+
+    [0.166, 0.466, 0.35, 0.016, 0.] chances of getting a:
+    [rock, barren, prairie, lush_prairie, forest] tile type
 
     , thus making it reliant on existing tiles but more easily extended if we
     wanted a continously generated open world feel.
@@ -56,7 +72,8 @@ class Chunk:
         d_con=(1, 1),
         passed_map=None,
         passed_map_corner=None,
-        tamper=False
+        tamper=False,
+        map=None
     ):
         self.random_seed = random_seed
         self.id = id
@@ -67,13 +84,16 @@ class Chunk:
         self.passed_map = passed_map
         self.passed_map_corner = passed_map_corner
         self.tamper = tamper
-        self.map = []
-        for _ in range(shape[0]):
-            row = []
-            for __ in range(shape[1]):
-                row.append(Location(tile_type=TileType.no_tile))
-            self.map.append(row)
-        self.stochastic_gen()
+        if map is None:
+            self.map = []
+            for _ in range(shape[0]):
+                row = []
+                for __ in range(shape[1]):
+                    row.append(Location(tile_type=TileType.no_tile))
+                self.map.append(row)
+            self.stochastic_gen()
+        else:
+            self.map = map
         ...
 
     def stochastic_gen(self) -> None:
@@ -109,7 +129,7 @@ class Chunk:
                 TypeError(
                     'You forgot to tell me what corner the passed map goes into.')
             if self.passed_map_corner == 1:
-                print('hello')
+                # print('hello')
                 for i in range(len(self.passed_map)):
                     for j in range(len(self.passed_map[0])):
                         self.map[i][j] = self.passed_map[i][j]
@@ -146,7 +166,42 @@ class Chunk:
                 str_row += str(i)
             str_row += '\n'
             entire_map += str_row
-        return entire_map[:len(entire_map)-2]
+        return entire_map[:len(entire_map)-1]
+
+    def slice_for_render(self, shape):
+        if shape[0] < 0 and shape[2] < 0:
+            # Top left
+            return [self.map[i][0: shape[3]] for i in range(0, shape[1])], 'top left'
+
+        if shape[1] >= self.shape[0] and shape[3] >= self.shape[1]:
+            # Bottom right
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(shape[0], self.shape[0])], 'bottom right'
+
+        if shape[0] < 0 and shape[3] >= self.shape[1]:
+            # top right
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(0, shape[1])], 'top right'
+
+        if shape[1] >= self.shape[0] and shape[2] < 0:
+            # bottom left
+            return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom left'
+
+        if shape[0] < 0:
+            # top
+            return [self.map[i][shape[2]: shape[3]] for i in range(0, shape[1])], 'top'
+
+        if shape[1] >= self.shape[0]:
+            # bottom
+            return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom'
+
+        if shape[3] >= self.shape[1]:
+            # right
+            return [self.map[i][shape[2]: self.shape[1]] for i in range(shape[0], shape[1])], 'right'
+
+        if shape[2] < 0:
+            # left
+            return [self.map[i][0: shape[3]] for i in range(shape[0], shape[1])], 'left'
+        # base case
+        return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], shape[1])], 'base'
 
     def slice(self, shape) -> list:
         return [self.map[i][shape[2]: shape[3]] for i in range(shape[0], shape[1])]
