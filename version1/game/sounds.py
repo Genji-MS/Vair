@@ -20,7 +20,12 @@ class Sound:
             'poops': [poop1],
             'intro': [intro],
             'nature': [nature],
-            'jump': [jump],
+            'jump': {
+                'tile_type1' : intro,
+                'tile_type2' : jump,
+                'tile_type3' : jump,
+                'tile_type4' : jump
+            },
             'eat': [eat],
             'bonk': [bonk]        
         }
@@ -33,8 +38,14 @@ class Sound:
             self.sounds[category][0].play()
         else:
             random.choice(self.sounds[category]).play()
+
+    def playJump(self, tile_type, category='jump' ):
+        '''Plays a tile specific sound'''
+        sound = self.sounds[category][tile_type]
+        sound.play()
             
 if __name__ == '__main__':       
     sounds = Sound()
-    sounds.playSound('jump')
+    sounds.playJump('tile_type1', 'jump')
     py.app.run()
+    
