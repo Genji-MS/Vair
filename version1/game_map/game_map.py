@@ -1,5 +1,7 @@
+from game_map.tile_type import TileType
 from game.food import Food
 from game_map.chunk import Chunk
+from game_map.location import Location
 import os
 from shutil import rmtree
 # same seed, False, (2,20), (50,50) //same map
@@ -388,16 +390,17 @@ class GameMap:
             the_top_view += [i]
         for i in the_bottom_view:
             the_top_view += [i]
+        water = Location(TileType.water)
         while len(the_top_view) < 5 and 'bottom' in case:
-            the_top_view.append([None]*len(the_top_view[0]))
+            the_top_view.append([water]*len(the_top_view[0]))
         while len(the_top_view) < 5 and 'top' in case:
-            the_top_view.insert(0, [None]*len(the_top_view[0]))
+            the_top_view.insert(0, [water]*len(the_top_view[0]))
         while len(the_top_view[0]) < 5 and 'left' in case:
             for i in the_top_view:
-                i.insert(0, None)
+                i.insert(0, water)
         while len(the_top_view[0]) < 5 and 'right' in case:
             for i in the_top_view:
-                i.append(None)
+                i.append(water)
         return the_top_view
 
     def render_slice(self):
