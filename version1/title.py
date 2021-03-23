@@ -2,9 +2,9 @@ import pyglet as py
 from pyglet.window import mouse
 import sprites
 
+
 py.resource.path = ['../resources']
 py.resource.reindex()
-
 
 # Set audio driver priority
 py.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
