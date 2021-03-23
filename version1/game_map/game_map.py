@@ -10,7 +10,7 @@ from shutil import rmtree
 
 
 class GameMap:
-    def __init__(self, seed, try_too_load_saved_from_seed=False, shape_in_chunks=(2, 200), chunk_shape=(50, 50)) -> None:
+    def __init__(self, seed, try_too_load_saved_from_seed=False, shape_in_chunks=(2, 20), chunk_shape=(50, 50)) -> None:
         self.seed = seed
         self.shape = shape_in_chunks
         self.chunk_shape = chunk_shape
