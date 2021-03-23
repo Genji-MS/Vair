@@ -88,6 +88,8 @@ def game_init(new_or_same_map = 'new'):
     for clock in clocks:
         py.clock.unschedule(clock)
     #////////////////////GAME////////////////
+    #seed
+    world = World()
     pos_x, pos_y = world.player_pos
     world_slice = world.return_slice()
     vair = sprites.Sprite_Rabbit()

@@ -68,15 +68,43 @@ class Title_Text_Alt:
         self.frame += 1 #increments the array to use the next image %(mod) the length of the array
         self.sprite = py.sprite.Sprite(img = self.title_seq[self.frame%self.frameMAX], x = 365, y=313)
 
+class Dead_Rabbit:
+    def __init__(self):
+        self.frame = 0
+        self.frameMAX = 8
+        self.scale_x = 1
+        self.x = 325
+        self.y = 250
+        self.ded0 = py.resource.image("rabbit/bun_ded_0.png")
+        self.ded1 = py.resource.image("rabbit/bun_ded_1.png")
+        self.ded2 = py.resource.image("rabbit/bun_ded_2.png")
+        self.ded3 = py.resource.image("rabbit/bun_ded_3.png")
+        self.ded4 = py.resource.image("rabbit/bun_ded_4.png")
+        self.ded5 = py.resource.image("rabbit/bun_ded_5.png")
+        self.ded6 = py.resource.image("rabbit/bun_ded_6.png")
+        self.ded7 = py.resource.image("rabbit/bun_ded_7.png")
+        self.img_seq = [self.ded0, self.ded1, self.ded2,
+                        self.ded3, self.ded4, self.ded5,
+                        self.ded6, self.ded7]
+        self.update(0)
+    def update(self, _):
+        #clock sends a parameter. '_' used (as in GO) to denote a variable we don't use
+        self.frame += 1 #increments the array to use the next image %(mod) the length of the array
+        #get next image and update our sprite refference
+        currentFrame = self.frame%self.frameMAX
+        self.sprite = py.sprite.Sprite(img = self.img_seq[currentFrame], x= self.x, y = self.y)
+
+        self.sprite.scale_x = self.scale_x
+
 class Sprite_Rabbit:
     def __init__(self):
         self.frame = 0
         self.frameMAX = 8
-        self.x = 325
-        self.y = 250
+        self.x = 320
+        self.y = 280
         self.scale_x = 1
         self.animating = False
-        self.eating = False
+        self._callback = None
         self.img0 = py.resource.image("rabbit/bun_idle_0.png")
         self.img1 = py.resource.image("rabbit/bun_idle_1.png")
         self.img2 = py.resource.image("rabbit/bun_idle_2.png")
@@ -126,9 +154,7 @@ class Sprite_Rabbit:
                         self.nom0, self.nom1, self.nom2, self.nom3,
                         self.nom4, self.nom5, self.nom6, self.nom7,
                         self.nom0, self.nom1, self.nom2, self.nom3,
-                        self.nom4, self.nom5, self.ded0, self.ded1,
-                        self.ded2, self.ded3, self.ded4, self.ded5,
-                        self.ded6, self.ded7]
+                        self.nom4, self.nom5]
         self.update(0)
     def update(self, _):
         #clock sends a parameter. '_' used (as in GO) to denote a variable we don't use
@@ -144,7 +170,6 @@ class Sprite_Rabbit:
                 self.scale_x = -1
             else:
                 self.scale_x = 1
-        # add for dead animation
 
         #get next image and update our sprite refference
         currentFrame = self.frame%self.frameMAX
@@ -173,7 +198,7 @@ class Sprite_Rabbit:
             #makes the sprite bounce (eating)
             self.sprite.scale_y = 1.1-(currentFrame%5)/30
             self.sprite.y -= 27
-    def hop_out(self, ro = 'X'):
+    def hop_out(self, ro, _cb):
         if self.frameMAX == 8:
             if ro == 'L':
                 self.scale_x = -1
@@ -182,7 +207,8 @@ class Sprite_Rabbit:
             self.frame = 8
             self.frameMAX = 16
             self.animating = True
-    def hop_in(self, ro = 'X'):
+            self._callback = _cb
+    def hop_in(self, ro, _cb):
         if self.frameMAX == 8:
             if ro == 'L':
                 self.scale_x = -1
@@ -191,7 +217,8 @@ class Sprite_Rabbit:
             self.frame = 16
             self.frameMAX = 24
             self.animating = True
-    def nom(self):
+            self._callback = _cb
+    def nom(self, _cb):
         if self.frameMAX == 8:
             if self.scale_x > 0:
                 self.scale_x = -1
@@ -199,12 +226,13 @@ class Sprite_Rabbit:
                 self.scale_x = 1
             self.frame = 24
             self.frameMAX = 38
-            self.eating = True
+            self.animating = True
+            self._callback = _cb
     def end_animation(self):
         self.animating = False
-        self.eating = False
         self.frameMAX = 8
-
+        if self._callback:
+            self._callback(None)
 
 class Sprite_Fox:
     def __init__(self):
@@ -298,6 +326,8 @@ class Ground:
             self.make_barren(x,y,frame)
         else:
             print('tile type {tile_type} is not a scripted option')
+        self.sprite.scale = 2
+        self.sprite.scale_x = 1.25
     def make_prarie(self, x=0, y=0, frame = -1):
         if frame == -1:
             frame = random.randint(0,7)
@@ -319,7 +349,37 @@ class Ground:
             frame = random.randint(0,7)
         self.sprite = py.sprite.Sprite(img = self.forrest_seq[frame], x= x, y = y)
 
-
+class Grass:
+    def __init__(self):
+        self.frame = 0
+        self.grass1_0 = py.resource.image("tiles/food_grass1_0.png")
+        self.grass1_1 = py.resource.image("tiles/food_grass1_1.png")
+        self.grass1_2 = py.resource.image("tiles/food_grass1_2.png")
+        self.grass1_3 = py.resource.image("tiles/food_grass1_3.png")
+        self.grass1_4 = py.resource.image("tiles/food_grass1_4.png")
+        self.grass1_5 = py.resource.image("tiles/food_grass1_5.png")
+        self.grass1_6 = py.resource.image("tiles/food_grass1_6.png")
+        self.grass1_7 = py.resource.image("tiles/food_grass1_7.png")
+        self.grass2_0 = py.resource.image("tiles/food_grass2_0.png")
+        self.grass2_1 = py.resource.image("tiles/food_grass2_1.png")
+        self.grass2_2 = py.resource.image("tiles/food_grass2_2.png")
+        self.grass2_3 = py.resource.image("tiles/food_grass2_3.png")
+        self.grass2_4 = py.resource.image("tiles/food_grass2_4.png")
+        self.grass2_5 = py.resource.image("tiles/food_grass2_5.png")
+        self.grass2_6 = py.resource.image("tiles/food_grass2_6.png")
+        self.grass2_7 = py.resource.image("tiles/food_grass2_7.png")
+        
+        self.grass_seq = [self.grass1_0, self.grass1_1, self.grass1_2,
+                            self.grass1_3, self.grass1_4, self.grass1_5,
+                            self.grass1_6, self.grass1_7, 
+                            self.grass2_0, self.grass2_1, self.grass2_2,
+                            self.grass2_3, self.grass2_4, self.grass2_5,
+                            self.grass2_6, self.grass2_7]
+    def make_tile(self, x=0, y=0,frame=-1):
+        if frame == -1:
+            frame = random.randint(0,15)
+        self.sprite = py.sprite.Sprite(img = self.grass_seq[frame], x= x, y = y)     
+        
 
 if __name__ == '__main__':
     print(__name__)

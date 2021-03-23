@@ -13,15 +13,6 @@ flay = Flay.Stomach(hraka, thlay)
 pos_x, pos_y = world.player_pos
 world_slice = world.return_slice()
 menu = []
-tiles = []
-# for y in range(5):
-#     col = []
-#     for x in range(5):
-#         print(f'world {world_slice}')
-#         print(f'row {world_slice[y]}')
-#         print(f'tile {world_slice[y][x]}')
-#         # tile = world_slice[x][y]
-#         # print (tile)
 
 
 def anchor_center(image):
@@ -38,33 +29,72 @@ py.clock.schedule_interval(vair.update, 0.07)
 window = py.window.Window()
 # bg_color = py.shapes.Rectangle(0,0,window.width, window.height, color=(22, 78, 22))
 batch_bg = py.graphics.Batch()
+MENU_BUFFER = 24  # padding
+MENU_WIDTH = 120
+MENU_HEIGHT = 74
+stats_border = py.shapes.Rectangle((MENU_BUFFER)-1, 0 + (MENU_HEIGHT//2+2) - MENU_BUFFER, MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
+stats_fill = py.shapes.Rectangle(stats_border.x +1, stats_border.y +1, MENU_WIDTH, MENU_HEIGHT, color=(0, 0, 0), batch=batch_bg)
+stats_txt = py.text.Label('STATS', x=stats_border.x + stats_border.width//2-30, y=stats_border.y + stats_border.height + 4, bold=True, color=(0,180,20,255), batch=batch_bg)
+food_border = py.shapes.Rectangle(window.width - stats_border.x - stats_border.width, window.height - (MENU_HEIGHT+2) - (MENU_BUFFER), MENU_WIDTH+2, MENU_HEIGHT+2, color=(255, 255, 255), batch=batch_bg)
+food_fill = py.shapes.Rectangle(food_border.x +1, food_border.y +1, MENU_WIDTH, MENU_HEIGHT, color=(0,0,0), batch=batch_bg)
+food_txt = py.text.Label('FOOD', x=food_border.x + food_border.width//2-24, y=food_border.y + food_border.height + 4, bold=True, color=(0,180,20,255), batch=batch_bg)
+
 batch_stats = py.graphics.Batch()
-BUFFER = 8  # padding
 STATS_BUFFER = 60
-stats_border = py.shapes.Rectangle((BUFFER//2)-1, window.height - (75+1) - (BUFFER//2), 120+2, 74+2, color=(255, 255, 255), batch=batch_bg)
-stats_fill = py.shapes.Rectangle(BUFFER//2, window.height - 75 - (BUFFER//2), 120, 74, color=(0, 0, 0), batch=batch_bg)
-food_border = py.shapes.Rectangle(window.width - stats_border.x - stats_border.width, stats_border.y, stats_border.width, stats_border.height, color=(255, 255, 255), batch=batch_bg)
-food_fill = py.shapes.Rectangle(window.width - stats_fill.x - stats_fill.width, stats_fill.y, stats_fill.width, stats_fill.height, color=(0,0,0), batch=batch_bg)
-health_txt = py.text.Label('Thlay', x=BUFFER + 3, y=window.height - 20 - BUFFER, batch=batch_stats)
-stomach_txt = py.text.Label('Flay', x=BUFFER + 12, y=window.height - 40 - BUFFER, batch=batch_stats)
-poops_txt = py.text.Label('Hraka', x=BUFFER, y=window.height - 60 - BUFFER, batch=batch_stats)
-health_val = py.text.Label(thlay.get_stats(), x= STATS_BUFFER, y=health_txt.y, batch=batch_stats)
-stomach_val = py.text.Label(flay.get_stats(), x= STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
-poops_val = py.text.Label(hraka.get_stats(), x = STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
-food1_txt = py.text.Label('', x= food_fill.x +6, y = health_txt.y, batch=batch_stats)
-food2_txt = py.text.Label('', x= food_fill.x +6, y=stomach_txt.y, batch=batch_stats)
-food3_txt = py.text.Label('', x= food_fill.x +6, y=poops_txt.y, batch=batch_stats)
-stats_txt = py.text.Label('STATS', x=stats_border.x + stats_border.width//2-30, y=window.height-13, bold=True, color=(0,180,20,255), batch=batch_stats)
-food_txt = py.text.Label('FOOD', x=food_border.x + stats_border.width//2-20, y=window.height-13, bold=True, color=(0,180,20,255), batch=batch_stats)
+health_txt = py.text.Label('Thlay', x=stats_fill.x + 11, y=stats_fill.y + 52, batch=batch_stats)
+stomach_txt = py.text.Label('Flay', x=stats_fill.x + 20, y=stats_fill.y + 32, batch=batch_stats)
+poops_txt = py.text.Label('Hraka', x=stats_fill.x + 8, y=stats_fill.y + 12, batch=batch_stats)
+health_val = py.text.Label(thlay.get_stats(), x= stats_fill.x + STATS_BUFFER, y=health_txt.y, batch=batch_stats)
+stomach_val = py.text.Label(flay.get_stats(), x= stats_fill.x + STATS_BUFFER, y=stomach_txt.y, batch=batch_stats)
+poops_val = py.text.Label(hraka.get_stats(), x = stats_fill.x + STATS_BUFFER, y=poops_txt.y, batch=batch_stats)
+food1_txt = py.text.Label('', x= food_fill.x +6, y=food_fill.y + 52, batch=batch_stats)
+food2_txt = py.text.Label('', x= food_fill.x +6, y=food_fill.y + 32, batch=batch_stats)
+food3_txt = py.text.Label('', x= food_fill.x +6, y=food_fill.y + 12, batch=batch_stats)
+
+batch_tiles = py.graphics.Batch()
+coord_tile_top = 430 + 60
+#coord_tile_left = 0 + 110 //normal width
+coord_tile_left = 0 + 56
+coord_tile_dim_y = 84
+coord_tile_dim_x = 105
+
+tiles = []
+# for row in world_slice:
+#     for tile in row:
+#         tile = tile.tile.name
+#         #food = len(tile.tile.non_colliding_objects) > 0
+#         print (f't: {tile} ')
+for y in range(5):
+    tile_y = coord_tile_top - (y*coord_tile_dim_y)
+    for x in range(5):
+        tile_y -= coord_tile_dim_y//2
+        tile_x = coord_tile_left + (x*coord_tile_dim_x)
+        tile = world_slice[y][x].tile.name
+        food = len(world_slice[x][y].non_colliding_objects) > 0
+        tile_graphic = sprites.Ground()
+        tile_graphic.make_tile(tile, tile_x, tile_y)
+        tile_graphic.sprite.batch = batch_tiles
+        tiles.append(tile_graphic)
+        if food:
+            tile_food = sprites.Grass()
+            tile_food.make_tile(tile_x, tile_y)
+            tile_food.sprite.batch = batch_tiles
+            tiles.append(tile_food)
+        print (f't: {tile} f:{food} xy:{tile_x, tile_y}')
+
+# for tile in tiles:
+world.render_slice()
+
 
 @window.event
 def on_draw():
     window.clear()
     # bg_color.draw()
+    batch_tiles.draw()
     batch_bg.draw()
     batch_stats.draw()
     vair.sprite.draw()
-
+    
 
 @window.event
 def on_key_press(symbol, modifiers):
@@ -74,18 +104,18 @@ def on_key_press(symbol, modifiers):
         elif symbol == py.window.key._1 and len(food1_txt.text) >1:
             world.eat_food(0)
             flay.eat(menu[0])
-            vair.nom()
-            py.clock.schedule_once(on_anim_complete, 1)
+            vair.nom(on_anim_complete)
+            #py.clock.schedule_once(on_anim_complete, 1)
         elif symbol == py.window.key._2 and len(food2_txt.text) >1:
             world.eat_food(1)
             flay.eat(menu[1])
-            vair.nom()
-            py.clock.schedule_once(on_anim_complete, 1)
+            vair.nom(on_anim_complete)
+            #py.clock.schedule_once(on_anim_complete, 1)
         elif symbol == py.window.key._3 and len(food3_txt.text) >1:
             world.eat_food(2)
             flay.eat(menu[2])
-            vair.nom()
-            py.clock.schedule_once(on_anim_complete, 1)
+            vair.nom(on_anim_complete)
+            #py.clock.schedule_once(on_anim_complete, 1)
         elif hraka.poopsAvailable():  # check if we are able to move
             # set defaults
             hop_dir = 'X'
@@ -121,13 +151,13 @@ def on_key_press(symbol, modifiers):
                 hraka.make_poop() #decriment poops
                 world.create_poop() #put a poop into the map
                 if hop_dir == 'in':
-                    vair.hop_in(hop_side)
+                    vair.hop_in(hop_side, on_anim_complete)
                 else:
-                    vair.hop_out(hop_side)
+                    vair.hop_out(hop_side, on_anim_complete)
                 world.move_player(hop_target)
-                py.clock.schedule_once(on_anim_complete, 0.6)
+                #py.clock.schedule_once(on_anim_complete, 0.6)
 
-
+#callback fuction passed into sprites for animation
 def on_anim_complete(_):
     #update stomach with number of moves
     flay.update()
