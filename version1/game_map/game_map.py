@@ -236,76 +236,108 @@ class GameMap:
                 self.load_chunk(self.cur_chunk[0] - 1,
                                 self.cur_chunk[1] - 1)  # top left
                 top_left_view = self.chunks[self.cur_chunk[0] - 1][self.cur_chunk[1] - 1].slice_for_render((
-                    self.player_pos[0]-2 + self.chunk_shape[0],
-                    self.player_pos[0]+3 + self.chunk_shape[0],
-                    self.player_pos[1]-2 + self.chunk_shape[1],
-                    self.player_pos[1]+3 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 + self.chunk_shape[1],
                 ))[0]
         if 'top' in case:
             if self.cur_chunk[0] - 1 >= 0:
                 self.load_chunk(
                     self.cur_chunk[0] - 1, self.cur_chunk[1])  # top
                 top_view = self.chunks[self.cur_chunk[0] - 1][self.cur_chunk[1]].slice_for_render((
-                    self.player_pos[0]-2 + self.chunk_shape[0],
-                    self.player_pos[0]+3 + self.chunk_shape[0],
-                    self.player_pos[1]-2,
-                    self.player_pos[1]+3,
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2,
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3,
                 ))[0]
         if case == 'top right':
             if self.cur_chunk[0] - 1 >= 0 and self.cur_chunk[1] + 1 < self.shape[1]:
                 self.load_chunk(self.cur_chunk[0] - 1,
                                 self.cur_chunk[1] + 1)  # top right
-                top_right_view = self.chunks[self.cur_chunk[0] - 1][self.cur_chunk[1]].slice_for_render((
-                    self.player_pos[0]-2 + self.chunk_shape[0],
-                    self.player_pos[0]+3 + self.chunk_shape[0],
-                    self.player_pos[1]-2 - self.chunk_shape[1],
-                    self.player_pos[1]+3 - self.chunk_shape[1],
+                top_right_view = self.chunks[self.cur_chunk[0] - 1][self.cur_chunk[1] + 1].slice_for_render((
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 + self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 - self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 - self.chunk_shape[1],
                 ))[0]
         if 'left' in case:
             if self.cur_chunk[1] - 1 >= 0:
                 self.load_chunk(self.cur_chunk[0],
                                 self.cur_chunk[1] - 1)  # left
                 left_view = self.chunks[self.cur_chunk[0]][self.cur_chunk[1] - 1].slice_for_render((
-                    self.player_pos[0]-2,
-                    self.player_pos[0]+3,
-                    self.player_pos[1]-2 + self.chunk_shape[1],
-                    self.player_pos[1]+3 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2,
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3,
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 + self.chunk_shape[1],
                 ))[0]
         if 'right' in case:
             if self.cur_chunk[1] + 1 < self.shape[1]:
                 self.load_chunk(self.cur_chunk[0], self.cur_chunk[1] + 1)
                 right_view = self.chunks[self.cur_chunk[0]][self.cur_chunk[1] + 1].slice_for_render((
-                    self.player_pos[0]-2,
-                    self.player_pos[0]+3,
-                    self.player_pos[1]-2 - self.chunk_shape[1],
-                    self.player_pos[1]+3 - self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2,
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3,
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 - self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 - self.chunk_shape[1],
                 ))[0]
         if case == 'bottom left':
-            if self.cur_chunk[0] + 1 < self.shape[0] and self.cur_chunk[1] - 1 >= 0:
+            if self.cur_chunk[0] + 1 <= self.shape[0] and self.cur_chunk[1] - 1 >= 0:
                 self.load_chunk(self.cur_chunk[0] + 1, self.cur_chunk[1] - 1)
                 bottom_left_view = self.chunks[self.cur_chunk[0] + 1][self.cur_chunk[1] - 1].slice_for_render((
-                    self.player_pos[0]-2 - self.chunk_shape[0],
-                    self.player_pos[0]+3 - self.chunk_shape[0],
-                    self.player_pos[1]-2 + self.chunk_shape[1],
-                    self.player_pos[1]+3 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 + self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 + self.chunk_shape[1],
                 ))[0]
         if 'bottom' in case:
             if self.cur_chunk[0] + 1 < self.shape[0]:
                 self.load_chunk(self.cur_chunk[0] + 1, self.cur_chunk[1])
                 bottom_view = self.chunks[self.cur_chunk[0] + 1][self.cur_chunk[1]].slice_for_render((
-                    self.player_pos[0]-2 - self.chunk_shape[0],
-                    self.player_pos[0]+3 - self.chunk_shape[0],
-                    self.player_pos[1]-2,
-                    self.player_pos[1]+3,
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2,
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3,
                 ))[0]
-        if case == 'botton right':
+        if case == 'bottom right':
             if self.cur_chunk[0] + 1 < self.shape[0] and self.cur_chunk[1] + 1 < self.shape[1]:
                 self.load_chunk(self.cur_chunk[0] + 1, self.cur_chunk[1] + 1)
-                bottom_right_view = self.chunks[self.cur_chunk[0] + 1][self.cur_chunk[1]].slice_for_render((
-                    self.player_pos[0]-2 - self.chunk_shape[0],
-                    self.player_pos[0]+3 - self.chunk_shape[0],
-                    self.player_pos[1]-2 - self.chunk_shape[1],
-                    self.player_pos[1]+3 - self.chunk_shape[1],
+                bottom_right_view = self.chunks[self.cur_chunk[0] + 1][self.cur_chunk[1] + 1].slice_for_render((
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])-2 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[0] %
+                     self.chunk_shape[0])+3 - self.chunk_shape[0],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])-2 - self.chunk_shape[1],
+                    (self.player_pos_relative_to_0_0[1] %
+                     self.chunk_shape[1])+3 - self.chunk_shape[1],
                 ))[0]
         the_top_view = []
         for i in range(len(top_view)):

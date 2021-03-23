@@ -183,7 +183,7 @@ class Chunk:
 
         if shape[1] >= self.shape[0] and shape[2] < 0:
             # bottom left
-            return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom_left'
+            return [self.map[i][0: shape[3]] for i in range(shape[0], self.shape[0])], 'bottom left'
 
         if shape[0] < 0:
             # top
